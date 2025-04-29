@@ -3,8 +3,11 @@
  * Java applications. For more information check the complete tutorial
  * here: https://www.tutorialspoint.com/junit/index.htm
  */
+import com.sun.source.tree.AssertTree;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import java.beans.Transient;
 
 public class InputValidatorTest 
 {
@@ -47,8 +50,45 @@ public class InputValidatorTest
     // Test cases for EMAIL field
 
     // Test cases for USERNAME field
+
+
+
+    @Test
+    public void passwordTest()
+    {
+        assertTrue(InputValidator.valPassword("Password1"));
+    }
+
+    @Test
+    public void shortPasswordTest()
+    {
+        assertFalse(InputValidator.valPassword("Pass1"));
+    }
+
+    @Test
+    public void noNumPasswordTest()
+    {
+        assertFalse(InputValidator.valPassword("myPassword"));
+    }
     
 }
+
+
+@Test
+public void lowCasePasswordTest()
+{
+    assertFalse(InputValidator.valPassword("PASSWORD1"));
+}
+
+@Test
+public void upCasePasswordTest()
+{
+    assertFalse(InputValidator.valPassword("password1"));
+}
+
+
+
+
     public void testNameFieldIsNotEmpty() 
     {
     @Test
@@ -98,4 +138,4 @@ public class InputValidatorTest
     }
 }
 
->>>>>>> feature-Schareene-validator
+
