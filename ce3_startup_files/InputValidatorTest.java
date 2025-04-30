@@ -48,14 +48,16 @@ public class InputValidatorTest
 
     }
 
-    
     // Test cases for LAST NAME field
     @Test
     public void testValidLastName() 
     {
         assertTrue(InputValidator.validateLastName("Pérez-García"));
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4d489a5361bceb44abde3fe7d1d12cf8e94f0ade
     @Test
     public void testValidLastNameShort() 
     {
@@ -74,7 +76,6 @@ public class InputValidatorTest
     {
         assertFalse(InputValidator.validateLastName("Lee123"));
     }
-   
     
     // Test cases for EMAIL field
     @Test
