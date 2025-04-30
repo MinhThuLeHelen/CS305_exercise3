@@ -47,5 +47,88 @@ public class InputValidatorTest
     // Test cases for EMAIL field
 
     // Test cases for USERNAME field
+
+    //Test cases for DESCRIPTION field 
+public void testValidDescription() {
+    String desc = "This is a beautiful piece of art.";
+    assertTrue(InputValidator.isValidDescription(desc));
+}
+
+public void testEmptyDescription() {
+    assertFalse(InputValidator.isValidDescription(""));
+}
+
+
+public void testNullDescription() {
+    assertFalse(InputValidator.isValidDescription(null));
+}
+
+public void testTooLongDescription() {
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < 1001; i++) sb.append("a");
+    assertFalse(InputValidator.isValidDescription(sb.toString()));
+}
+
+    //Test cases for MEDIUM field
+public void testValidMedium() {
+    assertTrue(InputValidator.isValidMedium("oil"));
+}
+
+public void testInvalidMedium() {
+    assertFalse(InputValidator.isValidMedium("wood"));
+}
+
+public void testEmptyMedium() {
+    assertFalse(InputValidator.isValidMedium(""));
+}
+
+public void testNullMedium() {
+    assertFalse(InputValidator.isValidMedium(null));
+}
+
+public void testCaseInsensitiveMedium() {
+    assertTrue(InputValidator.isValidMedium("Acrylic"));
+}
+
+    //Test cases for CREATION DATE field
+public void testValidCreationDate() {
+    assertTrue(InputValidator.isValidCreationDate("2022-05-14"));
+}
+
+public void testInvalidCreationDateFormat() {
+    assertFalse(InputValidator.isValidCreationDate("14-05-2022"));
+}
+
+public void testEmptyCreationDate() {
+    assertFalse(InputValidator.isValidCreationDate(""));
+}
+
+public void testNullCreationDate() {
+    assertFalse(InputValidator.isValidCreationDate(null));
+}
     
+    //Test cases for PRICE field
+public void testValidUSPrice() {
+    assertTrue(InputValidator.isValidPrice("$1500.00"));
+}
+
+public void testValidEuroPrice() {
+    assertTrue(InputValidator.isValidPrice("€1500.00"));
+}
+
+public void testValidBitcoinPrice() {
+    assertTrue(InputValidator.isValidPrice("₿0.05"));
+}
+
+public void testEmptyPrice() {
+    assertTrue(InputValidator.isValidPrice(""));
+}
+
+public void testInvalidPriceFormat() {
+    assertFalse(InputValidator.isValidPrice("1500"));
+}
+
+public void testInvalidPriceLetters() {
+    assertFalse(InputValidator.isValidPrice("fifteen hundred"));
+} 
 }
