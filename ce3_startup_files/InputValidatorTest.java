@@ -21,21 +21,21 @@ public class InputValidatorTest
     @Test
     public void testNameFieldIsNotEmpty() 
     { 
-        assertFalse(InputValidator.validateName(" "));          //should return Fail
+        assertFalse(InputValidator.validateName(" "));          //should return False
         assertTrue(InputValidator.validateName("Maria"));       //should return True
     }
 
     @Test
     public void testNameTooShort() 
     {
-        assertFalse(InputValidator.validateName("A"));           //should return Fail
+        assertFalse(InputValidator.validateName("A"));           //should return False
         assertTrue(InputValidator.validateName("Maria"));        //should return True
     }
 
     @Test
     public void testNameContainNumbers() 
     {
-        assertFalse(InputValidator.validateName("Mimi123"));     //should return Fail
+        assertFalse(InputValidator.validateName("Mimi123"));     //should return False
         assertTrue(InputValidator.validateName("Maria"));        //should return True
     }
 
