@@ -1,16 +1,9 @@
-<<<<<<< HEAD
 import java.util.List;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-
-=======
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
->>>>>>> feature-Dillon-validator
 /*
  * This is the InputValidator class. Please complete this class with
  * appropriate JavaDoc comments, method and code comments, and the appropriate
@@ -19,7 +12,6 @@ import java.util.regex.Pattern;
 
 public class InputValidator 
 {
-<<<<<<< HEAD
     /**
      * Validates a name based on the following requirements:
      * - Can contain letters and spaces.
@@ -30,51 +22,50 @@ public class InputValidator
      * @param name the name to validate
      * @return true if the name is valid, false otherwise
      */
-    public static boolean validateName(String name) 
-    {
-        if (name == null                 // if the input is null (nothing was passed in)
-                || name.trim().isEmpty() // if there is space even after trimming
-                || name.length() < 2)    // if there is last than 2 characters in the name
+    public static boolean isValidDescription(String description) {
+        if (description == null || description.trim().isEmpty()) {
             return false;
-        return name.matches("[\\p{L} ]+"); // we will accept letters (in any language with diacritics)
+        }
+        return description.length() <= 1000;
     }
-=======
-   public static boolean isValidDescription(String description) {
-    if (description == null || description.trim().isEmpty()) {
-        return false;
-    }
-    return description.length() <= 1000;
-}
-private static final Set<String> acceptedMedia = Set.of(
-    "oil", "acrylic", "watercolor", "ink", "pastel", "digital", "mixed media", "sculpture"
-);
 
-public static boolean isValidMedium(String medium) {
-    if (medium == null || medium.trim().isEmpty()) {
-        return false;
-    }
-    return acceptedMedia.contains(medium.toLowerCase());
-}
-public static boolean isValidCreationDate(String date) {
-    if (date == null || date.trim().isEmpty()) {
-        return false;
-    }
-    try {
-        LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
-        return true;
-    } catch (DateTimeParseException e) {
-        return false;
-    }
-} 
-private static final Pattern pricePattern = Pattern.compile("^\\$?\\d+(\\.\\d{2})?$|^€\\d+(\\.\\d{2})?$|^₿\\d+(\\.\\d{2})?$");
+    // List of accepted mediums for artwork.
+    private static final Set<String> acceptedMedia = Set.of(
+        "oil", "acrylic", "watercolor", "ink", "pastel", "digital", "mixed media", "sculpture"
+    );
 
-public static boolean isValidPrice(String price) {
-    if (price == null || price.trim().isEmpty()) {
-        return true; // empty allowed
+    /**
+     * Validates that the medium is not empty and is among accepted options.
+     *
+     * @param medium the medium used in the artwork
+     * @return true if valid, false otherwise
+     */
+    public static boolean isValidMedium(String medium) {
+        if (medium == null || medium.trim().isEmpty()) {
+            return false;
+        }
+        return acceptedMedia.contains(medium.toLowerCase());
     }
-    return pricePattern.matcher(price).matches();
-}
->>>>>>> feature-Dillon-validator
+
+
+    // Regex pattern to validate allowed currency formats (USD, EUR, BTC)
+    private static final Pattern pricePattern = Pattern.compile(
+        "^\\$?\\d+(\\.\\d{2})?$|^€\\d+(\\.\\d{2})?$|^₿\\d+(\\.\\d{2})?$"
+    );
+
+    /**
+     * Validates that the price is either empty or matches valid currency format.
+     *
+     * @param price the price as a string (can be USD, EUR, BTC)
+     * @return true if valid or empty, false if invalid
+     */
+    public static boolean isValidPrice(String price) {
+        if (price == null || price.trim().isEmpty()) {
+            return true; // empty is allowed
+        }
+        return pricePattern.matcher(price).matches();
+    }
+
 
     /**
      * Validates a last name based on the following requirements:
