@@ -11,11 +11,6 @@ import java.time.format.DateTimeParseException;
 
 public class InputValidator 
 {
-<<<<<<< HEAD
-    
-
-}
-=======
  /*
      * The isValidPhoneNum method is used to validate a phone number. 
      *
@@ -89,9 +84,3 @@ public class InputValidator
 }
 
 
-
-
-
- 
-   
->>>>>>> feature-Schareene-validator

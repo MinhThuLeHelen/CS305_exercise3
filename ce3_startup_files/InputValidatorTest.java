@@ -58,7 +58,6 @@ public class InputValidatorTest
         assertTrue(InputValidator.validatePhoneNumber("123-456-7890"));
         assertTrue(InputValidator.validatePhoneNumber("123 456 7890"));
         
-        //test for invalid phone numbers.
         assertFalse(InputValidator.validatePhoneNumber("12345")); //too short.
         assertFalse(InputValidator.validatePhoneNumber("abcdefghij")); //letters aren't allowed.
         assertFalse(InputValidator.validatePhoneNumber("123-45-67890")); //wrong way to write the phone number.
@@ -70,7 +69,6 @@ public class InputValidatorTest
         assertTrue(InputValidator.validateDateOfBirth("2005-05-2")); 
         assertTrue(InputValidator.validateDateOfBirth("1999-01-01")); 
 
-        //test for invalid DOB.
         assertFalse(InputValidator.validateDateOfBirth("abcd-ef-gh")); //invalid format.
         assertFalse(InputValidator.validateDateOfBirth("2025-05-01")); //a date that hasn't happen.
         }
@@ -98,4 +96,3 @@ public class InputValidatorTest
     }
 }
 
->>>>>>> feature-Schareene-validator
