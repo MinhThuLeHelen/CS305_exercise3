@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=InputValidator
+comment0.text=\n\ This\ is\ the\ InputValidator\ class.\ Please\ complete\ this\ class\ with\n\ appropriate\ JavaDoc\ comments,\ method\ and\ code\ comments,\ and\ the\ appropriate\n\ Methods\ to\ validate\ inputs\ from\ the\ user.\ \n
+comment1.params=name
+comment1.target=boolean\ validateName(java.lang.String)
+comment1.text=\n\ Validates\ a\ name\ based\ on\ the\ following\ requirements\:\n\ -\ Can\ contain\ letters\ and\ spaces.\n\ -\ Must\ be\ at\ least\ 2\ characters\ long.\n\ -\ May\ include\ diacritic\ marks.\n\ -\ Must\ not\ be\ null\ or\ empty.\n\n\ @param\ name\ the\ name\ to\ validate\n\ @return\ true\ if\ the\ name\ is\ valid,\ false\ otherwise\n
+comment2.params=lastName
+comment2.target=boolean\ validateLastName(java.lang.String)
+comment2.text=\n\ Validates\ a\ last\ name\ based\ on\ the\ following\ requirements\:\n\ -\ Can\ contain\ letters,\ spaces,\ and\ dashes.\n\ -\ Must\ be\ at\ least\ 2\ characters\ long.\n\ -\ May\ include\ diacritic\ marks.\n\ -\ Must\ not\ be\ null\ or\ empty.\n\ -\ It\ cannot\ start\ or\ end\ with\ a\ dash.\n\n\ @param\ lastName\ the\ last\ name\ to\ validate\n\ @return\ true\ if\ the\ last\ name\ is\ valid,\ false\ otherwise\n
+comment3.params=email
+comment3.target=boolean\ validateEmail(java.lang.String)
+comment3.text=\n\ Validates\ an\ email\ address\ based\ on\ the\ following\ requirements\:\n\ -\ Must\ not\ be\ null\ or\ empty.\n\ -\ Must\ follow\ a\ valid\ email\ format\ (e.g.,\ name@example.com).\n\n\ @param\ email\ the\ email\ address\ to\ validate\n\ @return\ true\ if\ the\ email\ is\ valid,\ false\ otherwise\n
+comment4.params=username
+comment4.target=boolean\ validateUsername(java.lang.String)
+comment4.text=\n\ Validates\ a\ username\ based\ on\ the\ following\ requirements\:\n\ -\ Must\ not\ be\ null\ or\ empty.\n\ -\ Must\ not\ exceed\ 20\ characters\ in\ length.\n\ -\ May\ contain\ only\ letters,\ numbers,\ underscores,\ and\ dots.\n\n\ @param\ username\ the\ username\ to\ validate\n\ @return\ true\ if\ the\ username\ meets\ all\ requirements,\ false\ otherwise\n
+comment5.params=username\ existingUsernames
+comment5.target=boolean\ isUsernameUnique(java.lang.String,\ java.util.List)
+comment5.text=\n\ Checks\ whether\ the\ given\ username\ is\ unique\ by\ comparing\ it\ to\ a\ list\ of\ existing\ usernames.\n\n\ @param\ username\ the\ username\ to\ check\n\ @param\ existingUsernames\ the\ list\ of\ usernames\ already\ in\ use\n\ @return\ true\ if\ the\ username\ is\ unique,\ false\ otherwise\n\ \ \ \ \ \n
+numComments=6
