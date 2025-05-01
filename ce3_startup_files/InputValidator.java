@@ -115,6 +115,7 @@ public class InputValidator
         return !existingUsernames.contains(username.toLowerCase());
     } 
 
+
      /*
      * The isValidPhoneNum method is used to validate a phone number. 
      *

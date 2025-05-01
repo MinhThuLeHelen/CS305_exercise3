@@ -140,6 +140,7 @@ public class InputValidatorTest
     }
     
     
+    // Test cases for PHONE NUMBER field
     @Test
     public void testPhoneNumberValidation()
         {
@@ -153,6 +154,7 @@ public class InputValidatorTest
         assertFalse(InputValidator.isValidPhoneNum("123-45-67890")); //wrong way to write the phone number.
         }
 
+    // Test cases for DATE OF BIRTH field
     @Test
     public void testDateOfBirthValidation()
         {
@@ -164,6 +166,7 @@ public class InputValidatorTest
         assertFalse(InputValidator.validateDateOfBirth("2025-05-01")); //a date that hasn't happen.
         }
 
+    // Test cases for POSTAL CODE field
     @Test
     public void testPostalCodeValidation()
         {
@@ -174,6 +177,7 @@ public class InputValidatorTest
         assertFalse(InputValidator.validatePostalCode("12a45"));  //letters aren't allowed in a postal code.
         }
 
+    // Test cases for CREATION DATE field
     @Test
     public void testCreationDateValidation()
         {
