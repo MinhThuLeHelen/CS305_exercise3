@@ -95,7 +95,7 @@ public class InputValidator
     {
         if (username == null                    // if input is null (nothing was passed in)
                 || username.trim().isEmpty()    // if there is space even after trimming
-                || username.length() > 20)      //if username is longer than 20 characters 
+                || username.length() > 20)      // if username is longer than 20 characters 
             return false;
         return username.matches("[\\w.]+");     // accepts username that contains letters, numbers, underscore, dot
     }
@@ -111,6 +111,7 @@ public class InputValidator
     {
          // Check if the username exists in the list
          // Case-insensitive check (UserName" and "username" as two distinct usernames)
+         
         return !existingUsernames.contains(username.toLowerCase());
     } 
 

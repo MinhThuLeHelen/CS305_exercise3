@@ -54,6 +54,7 @@ public class InputValidatorTest
     public void testValidLastName() 
     {
         assertTrue(InputValidator.validateLastName("Pérez-García"));
+        assertFalse(InputValidator.validateLastName(" ")); 
     }
 
     @Test
@@ -65,8 +66,8 @@ public class InputValidatorTest
     @Test
     public void testLastNameStartEndWithDash() 
     {
-        assertFalse(InputValidator.validateLastName("-Anna"));
-        assertFalse(InputValidator.validateLastName("Anna-"));
+        assertFalse(InputValidator.validateLastName("-Pérez"));
+        assertFalse(InputValidator.validateLastName("Pérez-"));
     }
     
     @Test
@@ -81,6 +82,7 @@ public class InputValidatorTest
     public void testValidEmail() 
     {
         assertTrue(InputValidator.validateEmail("Maria_Lopez@gmail.com"));
+        assertTrue(InputValidator.validateEmail("Maria.Lopez@gmail.com"));
     }
 
     @Test
@@ -133,7 +135,7 @@ public class InputValidatorTest
         // Create a list of existing usernames
         List<String> existingUsernames = Arrays.asList("Alice", "Bob", "Charlie");
         
-        //assertFalse("Username 'Bob' is not unique", InputValidator.isUsernameUnique("Bob", existingUsernames));  // should return False (Bob is taken)
+        assertFalse("Username 'Bob' is not unique", InputValidator.isUsernameUnique("Bob", existingUsernames));  // should return False (Bob is taken)
         assertTrue("Username 'David' is unique",InputValidator.isUsernameUnique("David", existingUsernames)); // should return True (David is not taken);
     }
     
