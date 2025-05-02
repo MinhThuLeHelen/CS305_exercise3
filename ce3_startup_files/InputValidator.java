@@ -60,11 +60,18 @@ public class InputValidator
      * @return true if valid or empty, false if invalid
      */
     public static boolean isValidPrice(String price) {
-        if (price == null || price.trim().isEmpty()) {
-            return true; // empty is allowed
-        }
-        return pricePattern.matcher(price).matches();
+    // Allow empty prices (optional field)
+    if (price == null || price.isEmpty()) {
+        return true;
     }
+
+    // Valid currencies: USD ($), CAD (C$), Euro (€), Mexican Peso (MX$), Bitcoin (₿)
+    // Regex allows symbols followed by 1+ digits, a decimal point, and 2 decimal digits
+    String priceRegex = "^(\\$|C\\$|€|MX\\$|₿)\\d+(\\.\\d{2})$";
+
+    return price.matches(priceRegex);
+}
+
 
 
     /**

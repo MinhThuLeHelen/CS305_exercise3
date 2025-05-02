@@ -54,10 +54,7 @@ public class InputValidatorTest
     {
         assertTrue(InputValidator.validateLastName("Pérez-García"));
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> 4d489a5361bceb44abde3fe7d1d12cf8e94f0ade
     @Test
     public void testValidLastNameShort() 
     {
