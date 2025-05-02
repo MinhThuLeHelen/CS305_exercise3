@@ -3,10 +3,13 @@
  * Java applications. For more information check the complete tutorial
  * here: https://www.tutorialspoint.com/junit/index.htm
  */
+import com.sun.source.tree.AssertTree;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.List;
 import java.util.Arrays;
+
+import java.beans.Transient;
 
 public class InputValidatorTest 
 {
@@ -54,7 +57,10 @@ public class InputValidatorTest
     {
         assertTrue(InputValidator.validateLastName("Pérez-García"));
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> db5e4836ea350e1a12ece0aba46430d8de9b6f99
     @Test
     public void testValidLastNameShort() 
     {
@@ -68,6 +74,51 @@ public class InputValidatorTest
         assertFalse(InputValidator.validateLastName("Anna-"));
     }
     
+    // Test cases for LAST NAME field
+    
+   
+    // Test cases for EMAIL field
+
+    // Test cases for USERNAME field
+
+
+
+    @Test
+    public void passwordTest()
+    {
+        assertTrue(InputValidator.valPassword("Password1"));
+    }
+
+    @Test
+    public void shortPasswordTest()
+    {
+        assertFalse(InputValidator.valPassword("Pass1"));
+    }
+
+    @Test
+    public void noNumPasswordTest()
+    {
+        assertFalse(InputValidator.valPassword("myPassword"));
+    }
+    
+}
+
+
+@Test
+public void lowCasePasswordTest()
+{
+    assertFalse(InputValidator.valPassword("PASSWORD1"));
+}
+
+@Test
+public void upCasePasswordTest()
+{
+    assertFalse(InputValidator.valPassword("password1"));
+}
+
+
+
+
     @Test
     public void testLastNameWithNumbers() 
     {
@@ -182,6 +233,7 @@ public class InputValidatorTest
         }
     }
     // Test cases for USERNAME field
+
 
      // Test cases for DESCRIPTION field
    @Test
