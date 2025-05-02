@@ -2,10 +2,10 @@
 dependency1.from=InputValidatorTest
 dependency1.to=InputValidator
 dependency1.type=UsesDependency
-editor.fx.0.height=728
-editor.fx.0.width=1120
-editor.fx.0.x=10
-editor.fx.0.y=25
+editor.fx.0.height=722
+editor.fx.0.width=1430
+editor.fx.0.x=46
+editor.fx.0.y=173
 objectbench.height=100
 objectbench.width=776
 package.divider.horizontal=0.6
