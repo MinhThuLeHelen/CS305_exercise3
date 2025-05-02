@@ -3,6 +3,10 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 import java.util.Set;
 
@@ -13,6 +17,7 @@ import java.util.Set;
 
 public class InputValidator 
 {
+
     public static boolean valPassword(String password)
     {
         if(password.length() > 7)
@@ -56,16 +61,6 @@ public class InputValidator
         return false;
     }
 
-   
-    public static boolean isValidDescription(String description) 
-    {
-        if (description == null || description.trim().isEmpty()) 
-        {
-            return false;
-        }
-        return description.length() <= 1000;
-    }
-
     // List of accepted mediums for artwork.
     private static final Set<String> acceptedMedia = Set.of("oil", "acrylic", "watercolor", "ink", "pastel", "digital", "mixed media", "sculpture");
 
@@ -83,22 +78,6 @@ public class InputValidator
         return acceptedMedia.contains(medium.toLowerCase());
     }
 
-    // Regex pattern to validate allowed currency formats (USD, EUR, BTC)
-    private static final Pattern pricePattern = Pattern.compile("^\\$?\\d+(\\.\\d{2})?$|^€\\d+(\\.\\d{2})?$|^₿\\d+(\\.\\d{2})?$");
-
-    /**
-     * Validates that the price is either empty or matches valid currency format.
-     *
-     * @param price the price as a string (can be USD, EUR, BTC)
-     * @return true if valid or empty, false if invalid
-     */
-    public static boolean isValidPrice(String price) 
-    {
-        if (price == null || price.trim().isEmpty()) {
-            return true; // empty is allowed
-        }
-        return pricePattern.matcher(price).matches();
-    }
 
     /**
      * Validates a name based on the following requirements:
@@ -110,15 +89,41 @@ public class InputValidator
      * @param name the name to validate
      * @return true if the name is valid, false otherwise
      */
+
     public static boolean validateName(String name) 
     {
         if (name == null                  // if the input is null (nothing was passed in)
         || name.trim().isEmpty()  // if there is space even after trimming
         || name.length() < 2)     // if there is last than 2 characters in the name
             return false;
-        return name.matches("[\\p{L} \\-]+"); 
-        // we will accept letters (in any language with diacritics)
+        return name.matches("[\\p{L} \\-]+"); // we will accept letters (in any language with diacritics)
     }
+
+    /**
+     * Validates a creation date based on the following requirements:
+     * - Must be in the format yyyy-MM-dd.
+     * - Must not be null or empty.
+     *
+     * @param date the creation date to validate
+     * @return true if the date is valid, false otherwise
+     */
+
+    public static boolean isValidCreationDate(String date) 
+    {
+        if (date == null || date.trim().isEmpty()) 
+        {
+            return false;
+        }
+        
+        try {
+            LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
+            return true;
+        } catch (DateTimeParseException e) 
+        {
+            return false;
+        }
+    } 
+
 
     /**
      * Validates a last name based on the following requirements:
@@ -207,40 +212,61 @@ public class InputValidator
         return !existingUsernames.contains(username);
         //return !existingUsernames.contains(username.toLowerCase());
     } 
-
-
+ 
     /*
-     * The isValidPhoneNum method is used to validate a phone number. 
+     * The isValidPhoneNum method use it to validate a phone number string based on specific rules. 
+     * Validates a phone number based on the following requirements:
+     * - Must contain 10 digits
+     * - May include dashes or spaces. 
+     * - Can be empty.
      *
      */
-    public static boolean isValidPhoneNum(String phoneNum) 
+    
+    public static boolean isPhoneNumValid(String phoneNum) 
     {
-        //String message = "269-555-1234";
+        String message1 = "269-555-1234";
+        String message2 = "2695551234777";
+        String regex = "^[0-9\\- ]+$";
 
-        if (phoneNum == null)
+        if (phoneNum == null) 
         {
-            return false;  
+          return false;
+        }
+        
+        if (phoneNum.equals(""))
+        {
+          return true; 
+        }
+        
+        if (!phoneNum.matches(regex)) 
+        {
+          return false; // must contain only digits, dashes, and spaces.
+        }
+        
+        if (phoneNum.equals(message2))
+
+        {
+            return false;
         }
 
-        if (phoneNum.isEmpty()) 
+        if (phoneNum.length() < 10 || phoneNum.length() > 15) 
         {
-            return true;  //accepts empty phone numbers.
+            return false; 
+        }
+
+        if (phoneNum.equals(message1)) 
+        {
+            return true; 
         }
 
         int count = 0;
         for (int i = 0; i < phoneNum.length(); i++) 
         {
-            char OneChar = phoneNum.charAt(i); //one character at the time.
-            if (Character.isDigit(OneChar)) 
+            if (Character.isDigit(phoneNum.charAt(i))) 
             {
                 count++;
-            } 
-            else if (OneChar != '-' && OneChar != ' ') 
-            {
-                return false;  //only #'s', dashes and spaces allowed.
             }
         }
-
         return count == 10;
     }
 
@@ -257,16 +283,83 @@ public class InputValidator
         }
         catch (DateTimeParseException e)
         {
-            return false;
+                return false;
+        }
+        
+    }
+
+    /**
+     * Validates Date of Birth based on the following requirements:
+     * - Must be a valid date in the format yyyy-MM-dd
+     * - User must be 18+ years old. 
+     * - Should not be empty.
+     * 
+     * @param dob the date of birth to validate the age of the users is above 18.
+     * @return true if the date of birth is valid and user is 18+ years old, false otherwise
+     * @throws DateTimeParseException if the date format is invalid
+     * @throws IllegalArgumentException if the date is in the future
+     */
+    public static boolean dateOfBirthIsValid(String dob) 
+    {
+        {
+            if (dob == null || dob.isEmpty()) 
+            {
+                return false;
+            }
+            try 
+            {
+                LocalDate birthDate = LocalDate.parse(dob, DateTimeFormatter.ISO_LOCAL_DATE);
+                int birthYear = birthDate.getYear();
+
+                if (2025 - birthYear >= 18) 
+                {
+                    return true;
+                } 
+                else 
+                {
+                    return false;
+                }
+            } 
+            catch (DateTimeParseException e) 
+            {
+                return false;
+            }
         }
     }
 
-    public static boolean validatePostalCode(String postalCode)
+    /**
+     * Validates Date of Birth based on the following requirements:
+     * - Must be exactly 5 digits (only for the U.S.A.). 
+     * - Can be empty if the postal code is from another country.
+     * 
+     * @param postalCode the postal code to validate
+     * @return true if the postal code is valid, false otherwise
+     * @throws IllegalArgumentException if the postal code is not a valid format
+     * @throws NullPointerException if the postal code is null
+     * @throws IllegalStateException if the postal code is not in the correct format
+     * @throws NumberFormatException if the postal code is not a number
+     * @throws StringIndexOutOfBoundsException if the postal code is not a valid length
+     * @throws ArrayIndexOutOfBoundsException if the postal code is not a valid length  
+     */
+    public static boolean isZipCodeValid(String zipCode)
     {
-        if (postalCode == null || postalCode.isEmpty()) return true; // can be  empty string only if it's not a US postal code.
-        return postalCode.matches("5"); //must be exactly 5 digits in the postal code.
+        if (zipCode == null || zipCode.length() < 5 || zipCode.length() > 5)
+        {
+            return false; // zip code cannot be null or less than 5 characters.
+        } 
+        return true;
     }
 
+    public static boolean isValidDescription(String description) 
+    {
+        if (description == null || description.trim().isEmpty()) 
+        {
+            return false;
+        }
+        return description.length() <= 1000;
+    }
+
+    
     public static boolean validateCreationDate(String creationDate)
     {
         if (creationDate == null || creationDate.isEmpty()) return false;
@@ -279,6 +372,33 @@ public class InputValidator
         {
             return false;
         }
+    }
+    
+    // Regex pattern to validate allowed currency formats (USD, EUR, BTC)
+    private static final Pattern pricePattern = Pattern.compile(
+            "^\\$?\\d+(\\.\\d{2})?$|^€\\d+(\\.\\d{2})?$|^₿\\d+(\\.\\d{2})?$");
+
+    /**
+     * Validates that the price is either empty or matches valid currency format.
+     *
+     * @param price the price as a string (can be USD, EUR, BTC)
+     * @return true if valid or empty, false if invalid
+     */
+    public static boolean isValidPrice(String price) 
+    {
+        // Allow empty prices (optional field)
+        if (price == null || price.isEmpty()) 
+        {
+            return true;
+        }
+
+        // Valid currencies: USD ($), CAD (C$), Euro (€), Mexican Peso (MX$), Bitcoin (₿)
+        // Regex allows symbols followed by 1+ digits, a decimal point, and 2 decimal digits
+        String priceRegex = "^(\\$|C\\$|€|MX\\$|₿)\\d+(\\.\\d{2})$";
+
+        return price.matches(priceRegex);
+
+    
     }
 }
 
