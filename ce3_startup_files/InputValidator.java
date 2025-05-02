@@ -1,4 +1,3 @@
-
 import java.util.List;
 import java.time.LocalDate;
 import java.time.Period;
@@ -18,6 +17,52 @@ import java.util.regex.Pattern;
 public class InputValidator 
 {
 
+    public static boolean valPassword(String password)
+    {
+        if(password.length() > 7)
+        {
+            return checkPass(password);
+            
+        }
+    
+        else
+        {
+            System.out.println("Too short");
+            return false;
+        }
+    }
+    public static boolean checkPass(String password)
+    {
+        boolean hasNum = false;
+        boolean hasCap = false;
+        boolean hasLow = false;
+        char c;
+
+        for (int i = 0; i < password.length(); i++)
+        {
+         c = password.charAt(i);
+         if(Character.isDigit(c))
+         {
+            hasNum = true;
+         }
+         else if (Character.isUpperCase(c))
+         {
+            hasCap = true;
+         }   
+         else if (Character.isLowerCase(c))
+        {
+             hasLow = true;
+        }
+        if(hasNum && hasCap && hasLow)
+        {
+            return true;
+        }
+        }
+        return false;
+    }
+
+
+
     /**
      * Validates a name based on the following requirements:
      * - Can contain letters and spaces.
@@ -28,13 +73,13 @@ public class InputValidator
      * @param name the name to validate
      * @return true if the name is valid, false otherwise
      */
-    public static boolean validateName(String name) 
+    public static boolean isValidDescription(String description) 
     {
-        if (name == null                 // if the input is null (nothing was passed in)
-                || name.trim().isEmpty() // if there is space even after trimming
-                || name.length() < 2)    // if there is last than 2 characters in the name
+        if (description == null || description.trim().isEmpty()) 
+        {
             return false;
-        return name.matches("[\\p{L} ]+"); // we will accept letters (in any language with diacritics)
+        }
+        return description.length() <= 1000;
     }
 
 /**
@@ -59,18 +104,64 @@ public static boolean isValidCreationDate(String date)
     {
         return false;
     }
-} 
+    } 
 
 private static final Pattern pricePattern = Pattern.compile("^\\$?\\d+(\\.\\d{2})?$|^€\\d+(\\.\\d{2})?$|^₿\\d+(\\.\\d{2})?$");
 
 public static boolean isValidPrice(String price) 
-{
+    {
     if (price == null || price.trim().isEmpty()) 
     {
         return true; // empty allowed.
     }
     return pricePattern.matcher(price).matches();
-}
+    }
+
+    // List of accepted mediums for artwork.
+    private static final Set<String> acceptedMedia = Set.of(
+        "oil", "acrylic", "watercolor", "ink", "pastel", "digital", "mixed media", "sculpture"
+    );
+
+    /**
+     * Validates that the medium is not empty and is among accepted options.
+     *
+     * @param medium the medium used in the artwork
+     * @return true if valid, false otherwise
+     */
+    public static boolean isValidMedium(String medium) 
+    {
+        if (medium == null || medium.trim().isEmpty()) 
+        {
+            return false;
+        }
+        return acceptedMedia.contains(medium.toLowerCase());
+    }
+
+
+    // Regex pattern to validate allowed currency formats (USD, EUR, BTC)
+    private static final Pattern pricePattern = Pattern.compile(
+        "^\\$?\\d+(\\.\\d{2})?$|^€\\d+(\\.\\d{2})?$|^₿\\d+(\\.\\d{2})?$");
+
+    /**
+     * Validates that the price is either empty or matches valid currency format.
+     *
+     * @param price the price as a string (can be USD, EUR, BTC)
+     * @return true if valid or empty, false if invalid
+     */
+    public static boolean isValidPrice(String price) 
+    {
+    // Allow empty prices (optional field)
+    if (price == null || price.isEmpty()) 
+    {
+        return true;
+    }
+
+    // Valid currencies: USD ($), CAD (C$), Euro (€), Mexican Peso (MX$), Bitcoin (₿)
+    // Regex allows symbols followed by 1+ digits, a decimal point, and 2 decimal digits
+    String priceRegex = "^(\\$|C\\$|€|MX\\$|₿)\\d+(\\.\\d{2})$";
+
+    return price.matches(priceRegex);
+    }
 
     /**
      * Validates a last name based on the following requirements:
@@ -156,10 +247,14 @@ public static boolean isValidPrice(String price)
     } 
 
      /**
+    
+    /*
+     * The isValidPhoneNum method use it to validate a phone number string based on specific rules. 
      * Validates a phone number based on the following requirements:
      * - Must contain 10 digits
      * - May include dashes or spaces. 
      * - Can be empty.
+     *
      */
     public static boolean isPhoneNumValid(String phoneNum) 
     {
@@ -188,7 +283,7 @@ public static boolean isValidPrice(String price)
         
         if (phoneNum.length() < 10 || phoneNum.length() > 15) 
         {
-          return false; // phone number cannot be null or less than 10 characters.
+          return false; 
         }
        
         if (phoneNum.equals(message1)) 
@@ -213,31 +308,38 @@ public static boolean isValidPrice(String price)
      * - User must be 18+ years old. 
      * - Should not be empty.
      * 
-     * @param dob the date of birth to validate
+     * @param dob the date of birth to validate the age of the users is above 18.
      * @return true if the date of birth is valid and user is 18+ years old, false otherwise
      * @throws DateTimeParseException if the date format is invalid
      * @throws IllegalArgumentException if the date is in the future
      */
-    public static boolean isValidateDateOfBirth(String dob)
+    public static boolean dateOfBirthIsValid(String dob) 
     {
-        if (dob == null || dob.isEmpty)
         {
-               return false;
-        }
-        
-        try
-        {
-            LocalDate birthDate = LocalDate.parse(dob, DateTimeFormatter.ISO_LOCAL_DATE);
-            LocalDate today = LocalDate.now();
-            int age = Period.between(birthDate, today).getYears();
-            return age >= 18;
-        }
-        catch (DateTimeParseException e)
-        {
-            return false;
+            if (dob == null || dob.isEmpty()) 
+            {
+                return false;
+            }
+            try 
+            {
+                LocalDate birthDate = LocalDate.parse(dob, DateTimeFormatter.ISO_LOCAL_DATE);
+                int birthYear = birthDate.getYear();
+
+                if (2025 - birthYear >= 18) 
+                {
+                    return true;
+                } 
+                else 
+                {
+                    return false;
+                }
+            } 
+            catch (DateTimeParseException e) 
+            {
+                return false;
+            }
         }
     }
-
 
     /**
      * Validates Date of Birth based on the following requirements:
@@ -253,39 +355,38 @@ public static boolean isValidPrice(String price)
      * @throws StringIndexOutOfBoundsException if the postal code is not a valid length
      * @throws ArrayIndexOutOfBoundsException if the postal code is not a valid length  
      */
-    public static boolean validatePostalCode(String postalCode)
+    public static boolean isZipCodeValid(String zipCode)
     {
-        if (postalCode == null || postalCode.length() < 5 || postalCode.length() > 5){
-            return false; // postal code cannot be null or less than 5 characters.
+        if (zipCode == null || zipCode.length() < 5 || zipCode.length() > 5)
+        {
+            return false; // zip code cannot be null or less than 5 characters.
         } 
         return true;
     }
 
-    
-
- public static boolean isValidDescription(String description) 
-   {
-    if (description == null || description.trim().isEmpty()) 
+    public static boolean isValidDescription(String description) 
     {
-        return false;
-    }
-    return description.length() <= 1000;
-}
-private static final Set<String> acceptedMedia = Set.of(
-    "oil", "acrylic", "watercolor", "ink", "pastel", "digital", "mixed media", "sculpture"
-);
+        if (description == null || description.trim().isEmpty()) 
+        {
+            return false;
+        }
+        return description.length() <= 1000;
+        }
+    private static final Set<String> acceptedMedia = Set.of(
+        "oil", "acrylic", "watercolor", "ink", "pastel", "digital", "mixed media", "sculpture"
+    );
 
-public static boolean isValidMedium(String medium) 
-{
-    if (medium == null || medium.trim().isEmpty()) 
+    public static boolean isValidMedium(String medium) 
     {
-        return false;
+        if (medium == null || medium.trim().isEmpty()) 
+        {
+            return false;
+        }
+        return acceptedMedia.contains(medium.toLowerCase());
     }
-    return acceptedMedia.contains(medium.toLowerCase());
-}
 
 
-public static boolean validateCreationDate(String creationDate)
+    public static boolean validateCreationDate(String creationDate)
     {
         if (creationDate == null || creationDate.isEmpty()) return false;
         try
@@ -297,7 +398,7 @@ public static boolean validateCreationDate(String creationDate)
         {
             return false;
         }
-    }
 
-}
+    }
+    
 

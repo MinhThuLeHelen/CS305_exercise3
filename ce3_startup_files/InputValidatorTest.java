@@ -3,10 +3,13 @@
  * Java applications. For more information check the complete tutorial
  * here: https://www.tutorialspoint.com/junit/index.htm
  */
+import com.sun.source.tree.AssertTree;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.List;
 import java.util.Arrays;
+
+import java.beans.Transient;
 
 public class InputValidatorTest 
 {
@@ -45,7 +48,6 @@ public class InputValidatorTest
         assertFalse(InputValidator.validateName(" "));           //should return False
         assertTrue(InputValidator.validateName("María López"));  //should return True
         assertTrue(InputValidator.validateName("Đặng Mỹ Linh")); //should return True
-
     }
 
     // Test cases for LAST NAME field
@@ -54,6 +56,7 @@ public class InputValidatorTest
     {
         assertTrue(InputValidator.validateLastName("Pérez-García"));
     }
+
     @Test
     public void testValidLastNameShort() 
     {
@@ -67,6 +70,45 @@ public class InputValidatorTest
         assertFalse(InputValidator.validateLastName("Anna-"));
     }
     
+    // Test cases for LAST NAME field
+    
+   
+    // Test cases for EMAIL field
+
+    // Test cases for USERNAME field
+
+
+
+    @Test
+    public void passwordTest()
+    {
+        assertTrue(InputValidator.valPassword("Password1"));
+    }
+
+    @Test
+    public void shortPasswordTest()
+    {
+        assertFalse(InputValidator.valPassword("Pass1"));
+    }
+
+    @Test
+    public void noNumPasswordTest()
+    {
+        assertFalse(InputValidator.valPassword("myPassword"));
+    }
+
+    @Test
+    public void lowCasePasswordTest()
+    {
+        assertFalse(InputValidator.valPassword("PASSWORD1"));
+    }
+
+    @Test
+    public void upCasePasswordTest()
+    {
+        assertFalse(InputValidator.valPassword("password1"));
+    }
+
     @Test
     public void testLastNameWithNumbers() 
     {
@@ -98,7 +140,7 @@ public class InputValidatorTest
         assertFalse(InputValidator.validateEmail(""));
     }
     
-    
+
     // Test cases for USERNAME field
     @Test
     public void testUsername() 
@@ -134,7 +176,6 @@ public class InputValidatorTest
         assertTrue("Username 'David' is unique",InputValidator.isUsernameUnique("David", existingUsernames)); // should return True (David is not taken);
     }
     
-    
     @Test
     public void testPhoneNumberValidation()
         {
@@ -152,21 +193,22 @@ public class InputValidatorTest
     @Test
     public void testDateOfBirthValidation()
         {
-        assertTrue(InputValidator.validateDateOfBirth("2005-05-2")); 
-        assertTrue(InputValidator.validateDateOfBirth("1999-01-01")); 
-
-        assertFalse(InputValidator.validateDateOfBirth("abcd-ef-gh")); //invalid format.
-        assertFalse(InputValidator.validateDateOfBirth("2025-05-01")); //a date that hasn't happen.
+         assertTrue(InputValidator.dateOfBirthIsValid("2001-03-26")); 
+        assertTrue(InputValidator.dateOfBirthIsValid("2005-06-13")); 
+        assertTrue(InputValidator.dateOfBirthIsValid("2003-11-01"));
+    
+        assertFalse(InputValidator.dateOfBirthIsValid("2025-05-01")); //a date that hasn't happen.
+        assertFalse(InputValidator.dateOfBirthIsValid("05-05-2005")); // format is wrong.
         }
 
     @Test
     public void testPostalCodeValidation()
         {
-        assertTrue(InputValidator.validatePostalCode("12345"));
+        assertTrue(InputValidator.isZipCodeValid("12345"));
         
-        assertFalse(InputValidator.validatePostalCode("1234"));  //too short.
-        assertFalse(InputValidator.validatePostalCode("123456")); //too long.
-        assertFalse(InputValidator.validatePostalCode("12a45"));  //letters aren't allowed in a postal code.
+        assertFalse(InputValidator.isZipCodeValid("1234"));  //too short.
+        assertFalse(InputValidator.isZipCodeValid("123456")); //too long.
+        assertFalse(InputValidator.isZipCodeValid("12a45"));  //letters aren't allowed in a postal code.
         }
 
     @Test
@@ -179,109 +221,247 @@ public class InputValidatorTest
             assertFalse(InputValidator.validateCreationDate("abcd-ef-gh")); //invalid characters.
             assertFalse(InputValidator.validateCreationDate("")); //empty string.
         }
-    }
     // Test cases for USERNAME field
 
-    //Test cases for DESCRIPTION field 
-public void testValidDescription() 
-{
-    String desc = "This is a beautiful piece of art.";
-    assertTrue(InputValidator.isValidDescription(desc));
+        //Test cases for DESCRIPTION field 
+    public void testValidDescription() 
+    {
+        String desc = "This is a beautiful piece of art.";
+        assertTrue(InputValidator.isValidDescription(desc));
+    }
+
+    public void testEmptyDescription() 
+    {
+        assertFalse(InputValidator.isValidDescription(""));
+    }
+
+    public void testNullDescription() 
+    {
+        assertFalse(InputValidator.isValidDescription(null));
+    }
+
+    public void testTooLongDescription() 
+    {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 1001; i++) sb.append("a");
+        assertFalse(InputValidator.isValidDescription(sb.toString()));
+    }
+
+        //Test cases for MEDIUM field
+    public void testValidMedium() 
+    {
+        assertTrue(InputValidator.isValidMedium("oil"));
+    }
+
+    public void testInvalidMedium() 
+    {
+        assertFalse(InputValidator.isValidMedium("wood"));
+    }
+
+    public void testEmptyMedium() 
+    {
+        assertFalse(InputValidator.isValidMedium(""));
+    }
+
+    public void testNullMedium() 
+    {
+        assertFalse(InputValidator.isValidMedium(null));
+    }
+
+    public void testCaseInsensitiveMedium() 
+    {
+        assertTrue(InputValidator.isValidMedium("Acrylic"));
+    }
+
+        //Test cases for CREATION DATE field
+    public void testValidCreationDate() 
+    {
+        assertTrue(InputValidator.isValidCreationDate("2022-05-14"));
+    }
+
+    public void testInvalidCreationDateFormat() 
+    {
+        assertFalse(InputValidator.isValidCreationDate("14-05-2022"));
+    }
+
+    public void testEmptyCreationDate() 
+    {
+        assertFalse(InputValidator.isValidCreationDate(""));
+    }
+
+    public void testNullCreationDate() 
+    {
+        assertFalse(InputValidator.isValidCreationDate(null));
+    }
+        
+        //Test cases for PRICE field
+    public void testValidUSPrice() 
+    {
+        assertTrue(InputValidator.isValidPrice("$1500.00"));
+    }
+
+    public void testValidEuroPrice() 
+    {
+        assertTrue(InputValidator.isValidPrice("€1500.00"));
+    }
+
+    public void testValidBitcoinPrice() 
+    {
+        assertTrue(InputValidator.isValidPrice("₿0.05"));
+    }
+
+    public void testEmptyPrice() 
+    {
+        assertTrue(InputValidator.isValidPrice(""));
+    }
+
+    public void testInvalidPriceFormat() 
+    {
+        assertFalse(InputValidator.isValidPrice("1500"));
+    }
+
+    public void testInvalidPriceLetters() 
+    {
+        assertFalse(InputValidator.isValidPrice("fifteen hundred"));
+    } 
+
+     // Test cases for DESCRIPTION field
+   @Test
+    public void testValidDescription() 
+    {
+        assertTrue(InputValidator.isValidDescription("A short and vivid description of the painting."));
+    }
+
+    /**
+     * Tests that an empty string is considered invalid as a description.
+     */
+    @Test
+    public void testEmptyDescription() 
+    {
+        assertFalse(InputValidator.isValidDescription(""));
+    }
+
+    /**
+     * Tests that a null input is considered invalid as a description.
+     */
+    @Test
+    public void testNullDescription() 
+    {
+        assertFalse(InputValidator.isValidDescription(null));
+    }
+
+    /**
+     * Tests that a description longer than 1000 characters is considered invalid.
+     */
+    @Test
+    public void testTooLongDescription() 
+    {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 1001; i++) sb.append("a"); // creates 1001 characters
+        assertFalse(InputValidator.isValidDescription(sb.toString()));
+    }
+
+    // Test cases for MEDIUM field
+
+    /**
+     * Tests that a valid medium from the allowed list returns true.
+     */
+    @Test
+    public void testValidMedium() 
+    {
+        assertTrue(InputValidator.isValidMedium("oil"));
+    }
+
+    /**
+     * Tests that a medium not in the allowed list returns false.
+     */
+    @Test
+    public void testInvalidMedium() 
+    {
+        assertFalse(InputValidator.isValidMedium("wood"));
+    }
+
+    /**
+     * Tests that an empty string is not valid for medium.
+     */
+    @Test
+    public void testEmptyMedium() 
+    {
+        assertFalse(InputValidator.isValidMedium(""));
+    }
+
+    /**
+     * Tests that a null input is not valid for medium.
+     */
+    @Test
+    public void testNullMedium() 
+    {
+        assertFalse(InputValidator.isValidMedium(null));
+    }
+
+    /**
+     * Tests that capitalization of valid mediums is ignored (case-insensitive check).
+     */
+    @Test
+    public void testCaseInsensitiveMedium() 
+    {
+        assertTrue(InputValidator.isValidMedium("Acrylic")); // Should pass due to case-insensitivity
+    }
+
+
+    // Test cases for PRICE field
+
+    /**
+     * Tests that a valid US dollar format price is accepted.
+     */
+    @Test
+    public void testValidUSPrice() 
+    {
+        assertTrue(InputValidator.isValidPrice("$1500.00"));
+    }
+
+    /**
+     * Tests that a valid Euro currency price is accepted.
+     */
+    @Test
+    public void testValidEuroPrice() 
+    {
+        assertTrue(InputValidator.isValidPrice("€999.99"));
+    }
+
+    /**
+     * Tests that a valid Bitcoin format price is accepted.
+     */
+    @Test
+    public void testValidBitcoinPrice() 
+    {
+        assertTrue(InputValidator.isValidPrice("₿0.05"));
+    }
+
+    /**
+     * Tests that an empty price input is valid (because price is optional).
+     */
+    @Test
+    public void testEmptyPrice() 
+    {
+        assertTrue(InputValidator.isValidPrice(""));
+    }
+
+    /**
+     * Tests that price without a currency symbol is considered invalid.
+     */
+    @Test
+    public void testInvalidPriceFormat() 
+    {
+        assertFalse(InputValidator.isValidPrice("1500")); // missing currency symbol
+    }
+
+    /**
+     * Tests that a non-numeric price is considered invalid.
+     */
+    @Test
+    public void testInvalidPriceLetters() 
+    {
+        assertFalse(InputValidator.isValidPrice("fifteen hundred"));
+    }
 }
-
-public void testEmptyDescription() 
-{
-    assertFalse(InputValidator.isValidDescription(""));
-}
-
-
-public void testNullDescription() 
-{
-    assertFalse(InputValidator.isValidDescription(null));
-}
-
-public void testTooLongDescription() 
-{
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < 1001; i++) sb.append("a");
-    assertFalse(InputValidator.isValidDescription(sb.toString()));
-}
-
-    //Test cases for MEDIUM field
-public void testValidMedium() 
-{
-    assertTrue(InputValidator.isValidMedium("oil"));
-}
-
-public void testInvalidMedium() 
-{
-    assertFalse(InputValidator.isValidMedium("wood"));
-}
-
-public void testEmptyMedium() 
-{
-    assertFalse(InputValidator.isValidMedium(""));
-}
-
-public void testNullMedium() 
-{
-    assertFalse(InputValidator.isValidMedium(null));
-}
-
-public void testCaseInsensitiveMedium() 
-{
-    assertTrue(InputValidator.isValidMedium("Acrylic"));
-}
-
-    //Test cases for CREATION DATE field
-public void testValidCreationDate() 
-{
-    assertTrue(InputValidator.isValidCreationDate("2022-05-14"));
-}
-
-public void testInvalidCreationDateFormat() 
-{
-    assertFalse(InputValidator.isValidCreationDate("14-05-2022"));
-}
-
-public void testEmptyCreationDate() 
-{
-    assertFalse(InputValidator.isValidCreationDate(""));
-}
-
-public void testNullCreationDate() 
-{
-    assertFalse(InputValidator.isValidCreationDate(null));
-}
-    
-    //Test cases for PRICE field
-public void testValidUSPrice() 
-{
-    assertTrue(InputValidator.isValidPrice("$1500.00"));
-}
-
-public void testValidEuroPrice() 
-{
-    assertTrue(InputValidator.isValidPrice("€1500.00"));
-}
-
-public void testValidBitcoinPrice() 
-{
-    assertTrue(InputValidator.isValidPrice("₿0.05"));
-}
-
-public void testEmptyPrice() 
-{
-    assertTrue(InputValidator.isValidPrice(""));
-}
-
-public void testInvalidPriceFormat() 
-{
-    assertFalse(InputValidator.isValidPrice("1500"));
-}
-
-public void testInvalidPriceLetters() 
-{
-    assertFalse(InputValidator.isValidPrice("fifteen hundred"));
-} 
-
