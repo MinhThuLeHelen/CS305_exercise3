@@ -4,8 +4,38 @@
 3. Dillon C. Rodriguez
 4. Jason P. Morales Alonso 
 
+**METHOD DESCRIPTION**
+validateName
 
-**HOW TO USE**: Validator class and the tester.
+validateLastName
+
+validateUsername
+
+isUsernameUnique
+
+validateEmail
+
+isValidDescription
+
+isValidMedium
+
+isValidPrice
+
+isValidPhoneNum
+
+validateDateOfBirth
+
+validatePostalCode
+
+validateCreationDate
+
+valPassword
+
+checkPass 
+
+
+
+**HOW TO USE**: The Validator class and the Tester class.
 
 
 
