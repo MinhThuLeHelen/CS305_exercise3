@@ -1,0 +1,7 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "ce3_startup_files/junit-4.13.2-javadoc.jar",
+        "/Users/mac/Desktop/Downloads/junit-4.13.2.jar"
+    ]
+}
