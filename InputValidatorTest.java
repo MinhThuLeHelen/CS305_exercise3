@@ -69,16 +69,75 @@ public class InputValidatorTest
         assertFalse(InputValidator.validateLastName("-Anna"));
         assertFalse(InputValidator.validateLastName("Anna-"));
     }
-    
-    // Test cases for LAST NAME field
-    
-   
-    // Test cases for EMAIL field
 
+    @Test
+    public void testLastNameWithNumbers() 
+    {
+        assertFalse(InputValidator.validateLastName("Lee123"));
+    }
+
+    // Test cases for EMAIL field
+    @Test
+    public void testValidEmail() 
+    {
+        assertTrue(InputValidator.validateEmail("Maria_Lopez@gmail.com"));
+    }
+
+    @Test
+    public void testEmailMissingDomain() 
+    {
+        assertFalse(InputValidator.validateEmail("Maria_Lopez@"));
+    }
+
+    @Test
+    public void testEmailDoubleAt() 
+    {
+        assertFalse(InputValidator.validateEmail("Maria@@"));
+    }
+
+    @Test
+    public void testEmailEmpty() 
+    {
+        assertFalse(InputValidator.validateEmail(""));
+    }
+    
     // Test cases for USERNAME field
 
+    @Test
+    public void testUsername() 
+    {
+        assertTrue(InputValidator.validateUsername("anna_123"));
+    }
 
+    @Test
+    public void testUsernameTooLong() 
+    {
+        assertFalse(InputValidator.validateUsername("usernamethatiswaytoolongforthis"));
+    }
 
+    @Test
+    public void testUsernameIsEmpty() 
+    {
+        assertFalse(InputValidator.validateUsername(""));
+    }
+
+    @Test
+    public void testUsernameWithDot() 
+    {
+        assertTrue(InputValidator.validateUsername("ana.maria"));
+    }
+
+     @Test
+    public void testUsernameIsUnique()
+    {
+        // Create a list of existing usernames
+        List<String> existingUsernames = Arrays.asList("Alice", "Bob", "Charlie");
+        
+        //assertFalse("Username 'Bob' is not unique", InputValidator.isUsernameUnique("Bob", existingUsernames));  // should return False (Bob is taken)
+        assertTrue("Username 'David' is unique",InputValidator.isUsernameUnique("David", existingUsernames)); // should return True (David is not taken);
+    }
+
+    /// Test cases for PASSWORD field
     @Test
     public void passwordTest()
     {
@@ -108,73 +167,7 @@ public class InputValidatorTest
     {
         assertFalse(InputValidator.valPassword("password1"));
     }
-
-    @Test
-    public void testLastNameWithNumbers() 
-    {
-        assertFalse(InputValidator.validateLastName("Lee123"));
-    }
     
-    // Test cases for EMAIL field
-    @Test
-    public void testValidEmail() 
-    {
-        assertTrue(InputValidator.validateEmail("Maria_Lopez@gmail.com"));
-    }
-
-    @Test
-    public void testEmailMissingDomain() 
-    {
-        assertFalse(InputValidator.validateEmail("Maria_Lopez@"));
-    }
-
-    @Test
-    public void testEmailDoubleAt() 
-    {
-        assertFalse(InputValidator.validateEmail("Maria@@"));
-    }
-
-    @Test
-    public void testEmailEmpty() 
-    {
-        assertFalse(InputValidator.validateEmail(""));
-    }
-    
-
-    // Test cases for USERNAME field
-    @Test
-    public void testUsername() 
-    {
-        assertTrue(InputValidator.validateUsername("anna_123"));
-    }
-
-    @Test
-    public void testUsernameTooLong() 
-    {
-        assertFalse(InputValidator.validateUsername("usernamethatiswaytoolongforthis"));
-    }
-
-    @Test
-    public void testUsernameIsEmpty() 
-    {
-        assertFalse(InputValidator.validateUsername(""));
-    }
-
-    @Test
-    public void testUsernameWithDot() 
-    {
-        assertTrue(InputValidator.validateUsername("ana.maria"));
-    }
-    
-    @Test
-    public void testUsernameIsUnique()
-    {
-        // Create a list of existing usernames
-        List<String> existingUsernames = Arrays.asList("Alice", "Bob", "Charlie");
-        
-        //assertFalse("Username 'Bob' is not unique", InputValidator.isUsernameUnique("Bob", existingUsernames));  // should return False (Bob is taken)
-        assertTrue("Username 'David' is unique",InputValidator.isUsernameUnique("David", existingUsernames)); // should return True (David is not taken);
-    }
     
     @Test
     public void testPhoneNumberValidation()
@@ -204,23 +197,13 @@ public class InputValidatorTest
     @Test
     public void testPostalCodeValidation()
         {
-        assertTrue(InputValidator.isZipCodeValid("12345"));
+        assertTrue(InputValidator.isPostalCodeValid("12345"));
         
-        assertFalse(InputValidator.isZipCodeValid("1234"));  //too short.
-        assertFalse(InputValidator.isZipCodeValid("123456")); //too long.
-        assertFalse(InputValidator.isZipCodeValid("12a45"));  //letters aren't allowed in a postal code.
+        assertFalse(InputValidator.isPostalCodeValid("1234"));  //too short.
+        assertFalse(InputValidator.isPostalCodeValid("123456")); //too long.
+        assertFalse(InputValidator.isPostalCodeValid("12a45"));  //letters aren't allowed in a postal code.
         }
 
-    @Test
-    public void testCreationDateValidation()
-        {
-            assertTrue(InputValidator.validateCreationDate("2024-04-01"));
-            assertTrue(InputValidator.validateCreationDate("2000-01-01"));
-
-            assertFalse(InputValidator.validateCreationDate("04-01-2024")); 
-            assertFalse(InputValidator.validateCreationDate("abcd-ef-gh")); //invalid characters.
-            assertFalse(InputValidator.validateCreationDate("")); //empty string.
-        }
     // Test cases for USERNAME field
 
         //Test cases for DESCRIPTION field 
@@ -247,31 +230,6 @@ public class InputValidatorTest
         assertFalse(InputValidator.isValidDescription(sb.toString()));
     }
 
-        //Test cases for MEDIUM field
-    public void testValidMedium() 
-    {
-        assertTrue(InputValidator.isValidMedium("oil"));
-    }
-
-    public void testInvalidMedium() 
-    {
-        assertFalse(InputValidator.isValidMedium("wood"));
-    }
-
-    public void testEmptyMedium() 
-    {
-        assertFalse(InputValidator.isValidMedium(""));
-    }
-
-    public void testNullMedium() 
-    {
-        assertFalse(InputValidator.isValidMedium(null));
-    }
-
-    public void testCaseInsensitiveMedium() 
-    {
-        assertTrue(InputValidator.isValidMedium("Acrylic"));
-    }
 
         //Test cases for CREATION DATE field
     public void testValidCreationDate() 
@@ -293,37 +251,6 @@ public class InputValidatorTest
     {
         assertFalse(InputValidator.isValidCreationDate(null));
     }
-        
-        //Test cases for PRICE field
-    public void testValidUSPrice() 
-    {
-        assertTrue(InputValidator.isValidPrice("$1500.00"));
-    }
-
-    public void testValidEuroPrice() 
-    {
-        assertTrue(InputValidator.isValidPrice("€1500.00"));
-    }
-
-    public void testValidBitcoinPrice() 
-    {
-        assertTrue(InputValidator.isValidPrice("₿0.05"));
-    }
-
-    public void testEmptyPrice() 
-    {
-        assertTrue(InputValidator.isValidPrice(""));
-    }
-
-    public void testInvalidPriceFormat() 
-    {
-        assertFalse(InputValidator.isValidPrice("1500"));
-    }
-
-    public void testInvalidPriceLetters() 
-    {
-        assertFalse(InputValidator.isValidPrice("fifteen hundred"));
-    } 
 
      // Test cases for DESCRIPTION field
    @Test
@@ -398,70 +325,49 @@ public class InputValidatorTest
     {
         assertFalse(InputValidator.isValidMedium(null));
     }
-
-    /**
-     * Tests that capitalization of valid mediums is ignored (case-insensitive check).
-     */
+    
     @Test
     public void testCaseInsensitiveMedium() 
     {
-        assertTrue(InputValidator.isValidMedium("Acrylic")); // Should pass due to case-insensitivity
+        assertTrue(InputValidator.isValidMedium("Acrylic"));
     }
-
 
     // Test cases for PRICE field
 
-    /**
-     * Tests that a valid US dollar format price is accepted.
-     */
     @Test
     public void testValidUSPrice() 
     {
         assertTrue(InputValidator.isValidPrice("$1500.00"));
     }
-
-    /**
-     * Tests that a valid Euro currency price is accepted.
-     */
+    
     @Test
     public void testValidEuroPrice() 
     {
         assertTrue(InputValidator.isValidPrice("€999.99"));
     }
-
-    /**
-     * Tests that a valid Bitcoin format price is accepted.
-     */
+    
     @Test
     public void testValidBitcoinPrice() 
     {
         assertTrue(InputValidator.isValidPrice("₿0.05"));
     }
-
-    /**
-     * Tests that an empty price input is valid (because price is optional).
-     */
+    
     @Test
     public void testEmptyPrice() 
     {
         assertTrue(InputValidator.isValidPrice(""));
     }
-
-    /**
-     * Tests that price without a currency symbol is considered invalid.
-     */
+    
     @Test
     public void testInvalidPriceFormat() 
     {
-        assertFalse(InputValidator.isValidPrice("1500")); // missing currency symbol
+        assertFalse(InputValidator.isValidPrice("1500"));
     }
-
-    /**
-     * Tests that a non-numeric price is considered invalid.
-     */
+    
     @Test
     public void testInvalidPriceLetters() 
     {
         assertFalse(InputValidator.isValidPrice("fifteen hundred"));
-    }
+    }      
 }
+
