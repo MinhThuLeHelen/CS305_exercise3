@@ -228,7 +228,7 @@ private static final Pattern pricePattern = Pattern.compile(
         return !existingUsernames.contains(username.toLowerCase());
     } 
 
-     /**
+    
     
     /*
      * Validates a phone number based on the following requirements:
@@ -324,12 +324,27 @@ private static final Pattern pricePattern = Pattern.compile(
     return true;
     }
 
+    /**
+     * Checks title is long enough but not too long
+     */
+    public static boolean checkTitle(String title)
+    {
+        if(title != null && title.length() > 0 && title.length() < 100)
+        {
+            return true;            
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
 private static final Set<String> acceptedMedia = Set.of(
         "oil", "acrylic", "watercolor", "ink", "pastel", "digital", "mixed media", "sculpture"
     );
 }
     /**
-     * Validates that the medium is not empty and is among accepted options.
+     * Validates that the medium is not empty and is among the accepted options.
      *
      * @param medium the medium used in the artwork
      * @return true if valid, false otherwise
