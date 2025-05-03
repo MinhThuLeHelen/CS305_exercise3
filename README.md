@@ -1,8 +1,8 @@
 ## **TEAM MEMBERS:
 1. Minh Thu Le (Helen)
 2. Schareene Romero Rivera
-3. Dillon C. Rodriguez
-4. Jason P. Morales Alonso 
+3. Jason P. Morales Alonson 
+4. Dillon C. Rodriguez
 
 <br>
 
@@ -19,69 +19,77 @@ Important files in this exercise include:
 
 To run the tests in the InputValidatorTest class, each test method needs a @Test annotation. Without this annotation, JUnit will not recognize or run the method as a test.
 
-<ins>validateName</ins>: Use it to validate a last name based on the following requirements:
+<ins>isNameValid</ins>: Use it to validate a last name based on the following requirements:
 - Can contain letters, spaces, and dashes.
 - Must be at least 2 characters long.
 - May include diacritic marks.
 - Must not be null or empty.
 
-<ins>validateLastName</ins>: Use it to validate a last name based on the following requirements:
+<ins>isLastNameValid</ins>: Use it to validate a last name based on the following requirements:
 - Can contain letters, spaces, and dashes.
 - Must be at least 2 characters long.
 - May include diacritic marks.
 - Must not be null or empty.
 - It cannot start or end with a dash.
 
-<ins>validateUsername</ins>: Use it to validate a username based on the following requirements:
+<ins>isEmailValid</ins>: Use it to validate an email address based on the following requirements:
+- Must not be null or empty.
+- Must follow a valid email format (e.g., name@example.com).
+
+<ins>isUsernameValid</ins>: Use it to validate a username based on the following requirements:
 - Must not be null or empty.
 - Must not exceed 20 characters in length.
 - May contain only letters, numbers, underscores, and dots.
 
 <ins>isUsernameUnique</ins>: Checks whether the given username is unique by comparing it to a list of existing usernames.
 
-<ins>validateEmail</ins>: Use it to validate an email address based on the following requirements:
-- Must not be null or empty.
-- Must follow a valid email format (e.g., name@example.com).
+<ins>isPasswordValid</ins>: Use it to check if the password is valid to then call checkPass.
+- For more than 7 characters.
+- If it is, then it calls the checkPass method.
+- Has a number.
 
-<ins>isValidDescription</ins>:
+<ins>checkPass</ins>: Checks if password has all requirements:
+- Has caps.
+- Has a lowercase letter.
+- Has special character(!, -, *,.).
 
-<ins>isValidMedium</ins>:
+<ins>isDescriptionValid</ins>: Use it to validate is the description is valid.
+- Must not be empty.
+- Shouldn't be more than 1000 characters long.
 
-<ins>isValidPrice</ins>:
-
-<ins>isValidPhoneNum</ins>: Use it to validate a phone number based on the following requirements:
+<ins>isPhoneNumValid</ins>: Use it to validate a phone number based on the following requirements:
 - Must contain 10 digits.
 - May include dashes or spaces.
 - Can be empty.
 
-<ins>validateDateOfBirth</ins>: Use it to validate Date of Birth based on the following requirements:
+<ins>isDateOfBirthValid</ins>: Use it to validate Date of Birth based on the following requirements:
 - Must be a valid date in the format yyyy-MM-dd.
 - User must be 18+ years old. 
 - Should not be empty.
 
-<ins>validatePostalCode</ins>: Use it to validate a postal Code based on the following requirements:
+<ins>isPostalCodeValid</ins>: Use it to validate a postal Code based on the following requirements:
 - Must be exactly 5 digits (only for the U.S.A.).
 - Can be empty if the postal code is from another country.
+
+<ins>isImage</ins>: Use it to validate if the file is an image.
+- It should have the extension JPG or PNG.
+- It should not be more than 4 MB in size.
+
+<ins>fileSize:</ins>: Checks if file size is not more than 4MB.
+
+<ins>isMediumValid</ins>:
+- Should be one of the accepted media (the field for a painting medium is a dropdown menu). 
+- Should not be empty.
+
+<ins>checkTitle</ins>: Use it to validate if a title is more than 0 characters but less than 100 characters.
 
 <ins>validateCreationDate</ins>: Use it to validate a creation date based on the following requirements:
 - Must be a valid date in the format yyyy-MM-dd.
 - Should not be empty.
 
-<ins>valPassword</ins>: Use it to check if password is valid to then call checkPass.
-- For more than 7 characters long.
-- If it is then calls checkPass method.
-- Has a number.
-
-<ins>checkPass</ins>: Checks if password has all requirements:
-Has caps.
-Has lowercase letter.
-Has special character(!, -, *,.).
-
-<ins>fileSize:</ins>: checks if file size is not more than 4MB.
-
-<ins>isImage</ins>: Checks if file is an image.
-
-<ins>checkTitle</ins>: Checks if title is more than 0 characters but less than 100 characters.
+<ins>isValidPrice</ins>: Use it to validate the currency.
+- Must be a valid currency (US or Canadian dollar, Euro, Mexican Peso, or Bitcoin) in the format 0.00. 
+- Can be empty.
 
 <br>
 
