@@ -96,11 +96,11 @@ To run the tests in the InputValidatorTest class, each test method needs a @Test
 ## **REFLECTION** 
 **1. How did writing tests first help (or slow down) your development?**
 
-Initially, writing a test before implementing the actual validation methods slowed us down since we would need to test case by case and make our code better in the end. However, this approach required us to think ahead and more carefully about the requirements for each method before writing the implementation. Once we got the hang of the process, it became more intuitive and actually helped us catching bugs and errors earlier earlier than if we had written the implementation first and tested afterward.
+Initially, writing a test before implementing the actual validation methods slowed us down since we would need to test case by case and make our code better in the end. However, this approach required us to think ahead and more carefully about the requirements for each method before writing the implementation. Once we got the hang of the process, it became more intuitive and actually helped us catch bugs and errors earlier than if we had written the implementation first and tested afterward.
 
 <br>
 
-**2.Did your team face any conflicts when merging or reviewing code?** 
+**2. Did your team face any conflicts when merging or reviewing code?** 
 
 Yes, our team did encounter some conflicts when merging and reviewing code. Since we each focused on different validation fields, conflicts naturally appeared when we brought everything together. These conflicts challenged us to more clearly, review review each other's changes more closely, and resolve merge issues collaboratively. In the end, this helped us  ensure  our methods and tests were consistent and readable among each other and for anyone else reading our code.
 
@@ -110,9 +110,9 @@ Yes, our team did encounter some conflicts when merging and reviewing code. Sinc
 
 In the future, we could improve the InputValidator class by breaking it into smaller parts. This would make the code easier to manage and update. Right now, all validation methods are grouped into one large class, which makes the file harder to navigate and scale as we add more fields. To improve this, we could split the class into multiple smaller validator classes based on their categories.
 For example: 
-- UserValidator class will contain methods like: validateUsername, validateEmail, validateDateOfBirth
-- ArtworkValidator class will contain methods like: isValidMedium, isValidPrice, isValidDescription
-- Contactvalidator class will contain methods like: isPhoneNumValid, isZipCodeValid
+- The UserValidator class will contain methods like: isUsernameValid, isEmailValid, and isDateOfBirthValid.
+- The ArtworkValidator class will contain methods like: isValidMedium, isValidPrice, and isDescriptionValid.
+- The Contactvalidator class will contain methods like: isPhoneNumValid, isPostalCodeValid.
 
 We also have duplicate logic like date parsing and empty/null checks, which  could be abstracted into helper methods to avoid repetition and make the code cleaner. In doing this it would helped us also reduce duplication and improve code clarability. 
 
