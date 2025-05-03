@@ -1,4 +1,4 @@
-## **TEAM MEMBERS:
+# TEAM MEMBERS:
 1. Minh Thu Le (Helen)
 2. Schareene Romero Rivera
 3. Jason P. Morales Alonson 
@@ -6,7 +6,7 @@
 
 <br>
 
-## **CLASSES DESCRIPTION**
+# CLASSES DESCRIPTION
 
 Important files in this exercise include:
 - **README.md**: Provides instructions on how to run the tests (see the HOW TO USE section) and includes a team reflection at the end.
@@ -15,9 +15,51 @@ Important files in this exercise include:
 
 <br>
 
-## **HOW TO USE**:
+# HOW TO USE:
 
-To run the tests in the InputValidatorTest class, each test method needs a @Test annotation. Without this annotation, JUnit will not recognize or run the method as a test.
+The InputValidatorTest class contains all the test cases used to verify that the methods in the InputValidator class work correctly.
+
+If you want to **_add a new test_** for a method:
+1. Create a new public method inside InputValidatorTest. 
+2. Add the @Test annotation above the method. 
+      ⚠️ Without the @Test annotation, JUnit will not recognize or execute your test method.
+3. Inside the method, call the appropriate method from InputValidator and use assertions like assertTrue() or assertFalse() to check the result. 
+4. Compile or save the InputValidatorTest file.
+5. Run the test:
+  - If you're using BlueJ: Right-click on the InputValidatorTest class & choose the specific test you want to run, or select "Test All."
+  - If you're using VS Code:
+    + Make sure you have the Java Extension Pack installed.
+    + Right-click inside the test method and select "Run Test" or click the play/run icon that appears above the method.
+    + You can also run all tests by right-clicking the class file or using the Testing sidebar.
+
+<br>
+
+<ins>For example</ins>: If you want to test whether the validateEmail method works correctly, you can add test cases inside the InputValidatorTest class. These test cases will call the validateEmail method from the InputValidator class to verify that it returns the expected results. 
+<br> Note: The methods in the InputValidator class must be declared public so that they can be accessed from the test class.
+
+<code> 
+@Test
+public void testValidEmail() 
+{
+    assertTrue(InputValidator.validateEmail("test@example.com"));
+}
+</code>
+
+<code> 
+@Test
+public void testInvalidEmail() 
+{
+    assertFalse(InputValidator.validateEmail("invalid-email"));
+    
+}
+
+</code>
+
+
+
+<br> 
+
+## **Methods in the InputValidator class:** ###
 
 <ins>validateName</ins>: Use it to validate a last name based on the following requirements:
 - Can contain letters, spaces, and dashes.
@@ -97,7 +139,7 @@ To run the tests in the InputValidatorTest class, each test method needs a @Test
 
 <br>
 
-## **REFLECTION** 
+# REFLECTION
 **1. How did writing tests first help (or slow down) your development?**
 
 Initially, writing a test before implementing the actual validation methods slowed us down since we would need to test case by case and make our code better in the end. However, this approach required us to think ahead and more carefully about the requirements for each method before writing the implementation. Once we got the hang of the process, it became more intuitive and actually helped us catch bugs and errors earlier than if we had written the implementation first and tested afterward.
