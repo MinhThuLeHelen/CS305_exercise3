@@ -10,10 +10,9 @@ import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 /*
  * The InputValidator class provides static utility methods to validate
- * various types of user input such as password, description, creation date,
- * price, medium, last name, email, username, phone number, DOB, postal code, 
- * description Methods include proper JavaDoc and in-line code comments for
- * better readability and maintenance.
+ * various types of user input such as the names, last names, emails, usernames,
+ * passwords, phone numbers, DOB, postal codes, titles, descriptions, dimensions,
+ * mediums, creation dates, prices.
  */
 
 public class InputValidator 
@@ -28,7 +27,7 @@ public class InputValidator
      * @param name the name to validate
      * @return true if the name is valid, false otherwise
      */
-     public static boolean validateName(String name) 
+     public static boolean isNameValid(String name) 
      {
          if (name == null                 // if the input is null (nothing was passed in)
                  || name.trim().isEmpty() // if there is space even after trimming
@@ -48,7 +47,7 @@ public class InputValidator
      * @param lastName the last name to validate
      * @return true if the last name is valid, false otherwise
      */
-    public static boolean validateLastName(String lastName) 
+    public static boolean IsLastNameValid(String lastName) 
     {
         if (lastName == null                  // if the input is null (nothing was passed in)
                 || lastName.trim().isEmpty()  // if there is space even after trimming
@@ -66,25 +65,26 @@ public class InputValidator
      * @param email the email address to validate
      * @return true if the email is valid, false otherwise
      */
-        public static boolean validateEmail(String email) 
+        public static boolean isEmailValid(String email) 
         {
             if (email == null                   // if the input is null (nothing was passed in)
                     || email.trim().isEmpty())  // if there is space even after trimming
+            {
                 return false;
-            
-            // Find the position of the @ symbol
-            int atPosition = email.indexOf('@');
+            }
+            int atPosition = email.indexOf('@');  // Find the position of the @ symbol
             // Check if @ exists and isn't the first or last character
             if (atPosition <= 0 || atPosition == email.length() - 1)
+            {
                 return false;
-            
+            }
             // Check if there is at least one '.' after the '@' symbol
             String domainPart = email.substring(atPosition + 1); // get everything after @
             if (domainPart.indexOf('.') == -1)
+            {
                 return false;
-            
-            // If all checks pass, return true
-            return true;
+            }
+            return true; // If all checks pass, return true
         }
     
     /**
@@ -93,7 +93,7 @@ public class InputValidator
      * @return true if valid, false otherwise
      */
 
-    public static boolean valPassword(String password)
+    public static boolean isPasswordValid(String password)
     {
         if(password.length() > 7)
         {
@@ -139,7 +139,7 @@ public class InputValidator
             return false;
         }
     
-    public static boolean isValidDescription(String description) 
+    public static boolean isDescriptionValid(String description) 
   {
         if (description == null || description.trim().isEmpty()) 
         {
@@ -157,7 +157,7 @@ public class InputValidator
      * @return true if the date is valid, false otherwise
      */
     
-    public static boolean validateCreationDate(String date) 
+    public static boolean isCreationDateValid(String date) 
       {
             if (date == null || date.isEmpty()) 
             {
@@ -173,21 +173,6 @@ public class InputValidator
                 return false;
             }
         }
-    
-private static final Pattern pricePattern = Pattern.compile(
-        "^(\\$|C\\$|€|MX\\$|₿)?\\d+(\\.\\d{2})?$");
-
-    /**
-     * Validates formatted currency strings (USD, EUR, BTC, etc.)
-     */
-    public static boolean isValidPrice(String price) 
-  {
-        if (price == null || price.trim().isEmpty()) 
-        {
-            return true;
-        }
-        return pricePattern.matcher(price).matches();
-    }
 
     /**
      * Validates a username based on the following requirements:
@@ -198,7 +183,7 @@ private static final Pattern pricePattern = Pattern.compile(
      * @param username the username to validate.
      * @return true if the username meets all requirements, false otherwise.
      */
-    public static boolean validateUsername(String username) 
+    public static boolean isUsernameValid(String username) 
     {
         if (username == null                    // if input is null (nothing was passed in)
                 || username.trim().isEmpty()    // if there is space even after trimming
@@ -230,23 +215,23 @@ private static final Pattern pricePattern = Pattern.compile(
      * @param phoneNum the input phone number string to validate.
      * @return true if the phone number is valid, false otherwise.
      */
-    public static boolean isPhoneNumValid(String phoneNum) 
+    public static boolean isPhoneNumValid(String phoneNumber) 
    {
-    if (phoneNum == null) 
+    if (phoneNumber == null) 
   {
   return false; 
   }
-    if (phoneNum.equals("")) 
+    if (phoneNumber.equals("")) 
     { 
       return true; 
     }
     String regex = "^[0-9\\- ]+$";  // Allows only digits, hyphens, and spaces
-    if (!phoneNum.matches(regex)) 
+    if (!phoneNumber.matches(regex)) 
     { 
       return false; 
     }
     int count = 0;
-    for (char c : phoneNum.toCharArray()) 
+    for (char c : phoneNumber.toCharArray()) 
     {
         if (Character.isDigit(c)) count++;
     }
@@ -263,7 +248,7 @@ private static final Pattern pricePattern = Pattern.compile(
      * @return true if the date of birth is valid and the user is 18+ years old, false otherwise.
      * @throws DateTimeParseException if the date format is invalid.
      */
-    public static boolean dateOfBirthIsValid(String dob) 
+    public static boolean isDateOfBirthValid(String dob) 
     {
             if (dob == null || dob.isEmpty()) 
     {
@@ -350,7 +335,7 @@ private static final Pattern pricePattern = Pattern.compile(
      * @param medium the medium used in the artwork (e.g., "oil", "acrylic")
      * @return true if the medium is valid, false otherwise
      */
-    public static boolean isValidMedium(String medium) 
+    public static boolean isMediumValid(String medium) 
     {
         if (medium == null || medium.trim().isEmpty()) 
         {
@@ -359,3 +344,18 @@ private static final Pattern pricePattern = Pattern.compile(
         return acceptedMedia.contains(medium.toLowerCase());
     }
 }
+
+    private static final Pattern pricePattern = Pattern.compile(
+            "^(\\$|C\\$|€|MX\\$|₿)?\\d+(\\.\\d{2})?$");
+
+    /**
+     * Validates formatted currency strings (USD, EUR, BTC, etc.)
+     */
+    public static boolean isPriceValid(String price) 
+      {
+            if (price == null || price.trim().isEmpty()) 
+            {
+                return true;
+            }
+            return pricePattern.matcher(price).matches();
+        }
