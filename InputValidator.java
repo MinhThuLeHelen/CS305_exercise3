@@ -344,18 +344,24 @@ public class InputValidator
                 return false;
             }
         }
-    
-private static final Pattern pricePattern = Pattern.compile(
+
+    // Valid currencies: USD ($), CAD (C$), Euro (€), Mexican Peso (MX$), Bitcoin (₿)
+    // Regex allows symbols followed by 1+ digits, a decimal point, and 2 decimal digits
+    private static final Pattern pricePattern = Pattern.compile(
         "^(\\$|C\\$|€|MX\\$|₿)?\\d+(\\.\\d{2})?$");
 
+    
     /**
-     * Validates formatted currency strings (USD, EUR, BTC, etc.)
-     */
+     * Validates that the price is either empty or matches valid currency format.
+     *
+     * @param price the price as a string (can be USD, EUR, BTC)
+     * @return true if valid or empty, false if invalid
+     */    
     public static boolean isValidPrice(String price) 
   {
         if (price == null || price.trim().isEmpty()) 
         {
-            return true;
+            return true; // Allow empty prices (optional field)
         }
         return pricePattern.matcher(price).matches();
     }
