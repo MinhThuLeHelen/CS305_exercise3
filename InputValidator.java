@@ -23,13 +23,14 @@ public class InputValidator
      * @param password the password to validate
      * @return true if valid, false otherwise
      */
-    public static boolean IsThePasswordValid(String password)
+
+    public static boolean valPassword(String password)
     {
-        if (password.length() > 7) 
+        if(password.length() > 7)
         {
             return checkPass(password);
-        } 
-        else 
+        }
+        else
         {
             System.out.println("Too short");
             return false;
@@ -104,7 +105,7 @@ public class InputValidator
             }
             try 
               {
-                LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
+                LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE); //yyyy-MM-dd.
                 return true;
             } 
             catch (DateTimeParseException e) 
@@ -230,7 +231,7 @@ private static final Pattern pricePattern = Pattern.compile(
      /**
     
     /*
-     * Validates a postal Code based on the following requirements:
+     * Validates a phone number based on the following requirements:
      * - Must contain 10 digits
      * - May include dashes or spaces. 
      * - Can be empty.
@@ -246,7 +247,6 @@ private static final Pattern pricePattern = Pattern.compile(
     { 
       return true; 
     }
-
     String regex = "^[0-9\\- ]+$";  // allows only digits, hyphens, and spaces
     if (!phoneNum.matches(regex)) 
     { 
@@ -261,13 +261,13 @@ private static final Pattern pricePattern = Pattern.compile(
 }
 
     /**
-     * Validates the creation date based on the following requirements:
+     * Validates the DOB based on the following requirements:
      * - Must be a valid date in the format yyyy-MM-dd
      * - User must be 18+ years old. 
      * - Should not be empty.
      * 
-     * @param Dvalidate the DOB of the users is above 18.
-     * @return true if the date of birth is valid and user is 18+ years old, false otherwise
+     * @param ValidateS the DOB of the user is above the age of 18 years old
+     * @return true if the date of birth is valid and the user is 18+ years old, false otherwise
      * @throws DateTimeParseException if the date format is invalid
      * @throws IllegalArgumentException if the date is in the future
      */
@@ -298,12 +298,12 @@ private static final Pattern pricePattern = Pattern.compile(
 }
 
     /**
-     * Validates the date of birth(DOB) based on the following requirements:
+     * Validates the postal code based on the following requirements:
      * - Must be exactly 5 digits (only for the U.S.A.). 
      * - Can be empty if the postal code is from another country.
      * 
      * @param postalCode 
-    * @param USAcode true if the address is in the U.S.A, false otherwise
+    * @param USAcode true if the address is in the U.S.A., false otherwise
     * @return true if the ZIP code is valid
     * @throws NumberFormatException if the postal code is not a number 
      */
