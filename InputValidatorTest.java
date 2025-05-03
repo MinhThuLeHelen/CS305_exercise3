@@ -1,23 +1,31 @@
-/*
- * These are the libraries from JUnit that allows you to test
- * Java applications. For more information check the complete tutorial
- * here: https://www.tutorialspoint.com/junit/index.htm
- */
-import com.sun.source.tree.AssertTree;
+import com.sun.source.tree.AssertTree; // should delete.
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.List;
 import java.util.Arrays;
 
-import java.beans.Transient;
+import java.beans.Transient; // should delete.
 
 public class InputValidatorTest 
 {
     /*
-     * Example test method for a possible Name field validator method in your 
-     * InputValidator class.
-     * For more information about assertion tests check: 
-     * https://www.tutorialspoint.com/junit/junit_using_assertion.htm
+     *  Unit tests for the InputValidator class.
+     * 
+     * - Name
+     * - Last Name
+     * - Email
+     * - Username
+     * - Password
+     * - Phone Number
+     * - Date of Birth
+     * - Postal Code
+     * - Title
+     * - Description
+     * - image
+     * - Medium
+     * - Creation Date
+     * - Price
+     *
      */
 
         // Test cases for NAME field
@@ -203,8 +211,15 @@ public class InputValidatorTest
         assertFalse(InputValidator.isPostalCodeValid("12a45"));  //letters aren't allowed in a postal code.
     }
 
+        // Test cases for TITTLE field
+    @Test
+    public void testTitleValidation()
+    {
+        assertFalse(InputValidator.checkTitle(""));
+        assertTrue(InputValidator.checkTitle("This is My title"));
+    }
+
         //Test cases for CREATION DATE field
-    
      @Test
     public void testValidCreationDate() 
     {
@@ -217,43 +232,35 @@ public class InputValidatorTest
         assertFalse(InputValidator.isCreationDateValid("14-05-2022"));
     }
 
-     @Test
+    @Test
     public void testEmptyCreationDate() 
     {
         assertFalse(InputValidator.isCreationDateValid(""));
     }
     
-     @Test
+    @Test
     public void testNullCreationDate() 
     {
         assertFalse(InputValidator.isCreationDateValid(null));
     }
 
         // Test cases for DESCRIPTION field
-    
-   @Test
+    @Test
     public void testValidDescription() 
     {
         assertTrue(InputValidator.isDescriptionValid("A short and vivid description of the painting."));
     }
-
+    
     @Test
     public void testEmptyDescription() 
     {
         assertFalse(InputValidator.isDescriptionValid(""));
     }
-
+    
     @Test
     public void testNullDescription() 
     {
         assertFalse(InputValidator.isDescriptionValid(null));
-    }
-    
-    @Test
-    public void testValidDescription() 
-    {
-        String desc = "This is a beautiful piece of art.";
-        assertTrue(InputValidator.isDescriptionValid(desc));
     }
     
     @Test
@@ -264,13 +271,14 @@ public class InputValidatorTest
         assertFalse(InputValidator.isDescriptionValid(sb.toString()));
     }
 
-        // Test cases for MEDIUM field
     @Test
-    public void testValidMedium() 
+    public void testValidDescriptionWithArtText() 
     {
-        assertTrue(InputValidator.isMediumValid("oil"));
+        String desc = "This is a beautiful piece of art.";
+        assertTrue(InputValidator.isDescriptionValid(desc));
     }
 
+        // Test cases for MEDIUM field
     @Test
     public void testInvalidMedium() 
     {
@@ -295,12 +303,11 @@ public class InputValidatorTest
         assertTrue(InputValidator.isMediumValid("Acrylic"));
     }
 
-    // Test cases for PRICE field
-
+        // Test cases for PRICE field
     @Test
     public void testValidUSPrice() 
     {
-        assertTrue(InputValidator.isValidPrice("$1500.00"));
+        assertTrue(InputValidator.isPriceValid("$1500.00"));
     }
     
     @Test
@@ -333,4 +340,3 @@ public class InputValidatorTest
         assertFalse(InputValidator.isPriceValid("fifteen hundred"));
     }      
 }
-
