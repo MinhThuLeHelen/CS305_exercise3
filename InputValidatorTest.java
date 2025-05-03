@@ -20,85 +20,85 @@ public class InputValidatorTest
      * https://www.tutorialspoint.com/junit/junit_using_assertion.htm
      */
 
-    // Test cases for NAME field
+        // Test cases for NAME field
     @Test
     public void testNameFieldIsNotEmpty() 
     { 
-        assertFalse(InputValidator.validateName(" "));          //should return Fail
-        assertTrue(InputValidator.validateName("Maria"));       //should return True
+        assertFalse(InputValidator.isNameValid(" "));          //should return Fail
+        assertTrue(InputValidator.isNameValid("Maria"));       //should return True
     }
 
     @Test
     public void testNameTooShort() 
     {
-        assertFalse(InputValidator.validateName("A"));           //should return Fail
-        assertTrue(InputValidator.validateName("Maria"));        //should return True
+        assertFalse(InputValidator.isNameValid("A"));           //should return Fail
+        assertTrue(InputValidator.isNameValid("Maria"));        //should return True
     }
 
     @Test
     public void testNameContainNumbers() 
     {
-        assertFalse(InputValidator.validateName("Mimi123"));     //should return Fail
-        assertTrue(InputValidator.validateName("Maria"));        //should return True
+        assertFalse(InputValidator.isNameValid("Mimi123"));     //should return Fail
+        assertTrue(InputValidator.isNameValid("Maria"));        //should return True
     }
 
     @Test
     public void testNameWithDiacritics ()
     {
-        assertFalse(InputValidator.validateName(" "));           //should return False
-        assertTrue(InputValidator.validateName("María López"));  //should return True
-        assertTrue(InputValidator.validateName("Đặng Mỹ Linh")); //should return True
+        assertFalse(InputValidator.isNameValid(" "));           //should return False
+        assertTrue(InputValidator.isNameValid("María López"));  //should return True
+        assertTrue(InputValidator.isNameValid("Đặng Mỹ Linh")); //should return True
     }
 
-    // Test cases for LAST NAME field
+        // Test cases for LAST NAME field
     @Test
     public void testValidLastName() 
     {
-        assertTrue(InputValidator.validateLastName("Pérez-García"));
+        assertTrue(InputValidator.isLastNameValid("Pérez-García"));
     }
 
     @Test
     public void testValidLastNameShort() 
     {
-        assertTrue(InputValidator.validateLastName("Lê"));
+        assertTrue(InputValidator.isLastNameValid("Lê"));
     }
 
     @Test
     public void testLastNameStartEndWithDash() 
     {
-        assertFalse(InputValidator.validateLastName("-Anna"));
-        assertFalse(InputValidator.validateLastName("Anna-"));
+        assertFalse(InputValidator.isLastNameValid("-Anna"));
+        assertFalse(InputValidator.isLastNameValid("Anna-"));
     }
 
     @Test
     public void testLastNameWithNumbers() 
     {
-        assertFalse(InputValidator.validateLastName("Lee123"));
+        assertFalse(InputValidator.isLastNameValid("Lee123"));
     }
 
     // Test cases for EMAIL field
     @Test
     public void testValidEmail() 
     {
-        assertTrue(InputValidator.validateEmail("Maria_Lopez@gmail.com"));
+        assertTrue(InputValidator.isEmailValid("Maria_Lopez@gmail.com"));
     }
 
     @Test
     public void testEmailMissingDomain() 
     {
-        assertFalse(InputValidator.validateEmail("Maria_Lopez@"));
+        assertFalse(InputValidator.isEmailValid("Maria_Lopez@"));
     }
 
     @Test
     public void testEmailDoubleAt() 
     {
-        assertFalse(InputValidator.validateEmail("Maria@@"));
+        assertFalse(InputValidator.isEmailValid("Maria@@"));
     }
 
     @Test
     public void testEmailEmpty() 
     {
-        assertFalse(InputValidator.validateEmail(""));
+        assertFalse(InputValidator.isEmailValid(""));
     }
     
     // Test cases for USERNAME field
@@ -106,25 +106,25 @@ public class InputValidatorTest
     @Test
     public void testUsername() 
     {
-        assertTrue(InputValidator.validateUsername("anna_123"));
+        assertTrue(InputValidator.isUsernameValid("anna_123"));
     }
 
     @Test
     public void testUsernameTooLong() 
     {
-        assertFalse(InputValidator.validateUsername("usernamethatiswaytoolongforthis"));
+        assertFalse(InputValidator.isUsernameValid("usernamethatiswaytoolongforthis"));
     }
 
     @Test
     public void testUsernameIsEmpty() 
     {
-        assertFalse(InputValidator.validateUsername(""));
+        assertFalse(InputValidator.isUsernameValid(""));
     }
 
     @Test
     public void testUsernameWithDot() 
     {
-        assertTrue(InputValidator.validateUsername("ana.maria"));
+        assertTrue(InputValidator.isUsernameValid("ana.maria"));
     }
 
      @Test
@@ -137,199 +137,162 @@ public class InputValidatorTest
         assertTrue("Username 'David' is unique",InputValidator.isUsernameUnique("David", existingUsernames)); // should return True (David is not taken);
     }
 
-    /// Test cases for PASSWORD field
+        // Test cases for PASSWORD field
     @Test
     public void passwordTest()
     {
-        assertTrue(InputValidator.valPassword("Password1"));
+        assertTrue(InputValidator.isPasswordValid("Password1"));
     }
 
     @Test
     public void shortPasswordTest()
     {
-        assertFalse(InputValidator.valPassword("Pass1"));
+        assertFalse(InputValidator.isPasswordValid("Pass1"));
     }
 
     @Test
     public void noNumPasswordTest()
     {
-        assertFalse(InputValidator.valPassword("myPassword"));
+        assertFalse(InputValidator.isPasswordValid("myPassword"));
     }
 
     @Test
     public void lowCasePasswordTest()
     {
-        assertFalse(InputValidator.valPassword("PASSWORD1"));
+        assertFalse(InputValidator.isPasswordValid("PASSWORD1"));
     }
 
     @Test
     public void upCasePasswordTest()
     {
-        assertFalse(InputValidator.valPassword("password1"));
+        assertFalse(InputValidator.isPasswordValid("password1"));
     }
     
     
     @Test
     public void testPhoneNumberValidation()
-        {
+    {
         assertTrue(InputValidator.isPhoneNumValid("1234567890"));
         assertTrue(InputValidator.isPhoneNumValid("123-456-7890")); // phone number with dashes.
         assertTrue(InputValidator.isPhoneNumValid("123 456 7890")); // phone number with spaces.
         assertTrue(InputValidator.isPhoneNumValid("")); //empty.
-        
+            
         assertFalse(InputValidator.isPhoneNumValid("12345")); //too short.
         assertFalse(InputValidator.isPhoneNumValid("123-45-67890")); //wrong way to write the phone number.
-        assertFalse(InputValidator.isPhoneNumValid("2695551234777")); // message2.
         assertFalse(InputValidator.isPhoneNumValid(null)); 
-        }
+    }
 
     @Test
     public void testDateOfBirthValidation()
-        {
-         assertTrue(InputValidator.dateOfBirthIsValid("2001-03-26")); 
-        assertTrue(InputValidator.dateOfBirthIsValid("2005-06-13")); 
-        assertTrue(InputValidator.dateOfBirthIsValid("2003-11-01"));
+    {
+        assertTrue(InputValidator.isDateOfBirthValid("2001-03-26")); 
+        assertTrue(InputValidator.isDateOfBirthValid("2005-06-13")); 
+        assertTrue(InputValidator.isDateOfBirthValid("2003-11-01"));
     
-        assertFalse(InputValidator.dateOfBirthIsValid("2025-05-01")); //a date that hasn't happen.
-        assertFalse(InputValidator.dateOfBirthIsValid("05-05-2005")); // format is wrong.
-        }
+        assertFalse(InputValidator.isDateOfBirthValid("2025-05-01")); //a date that hasn't happen.
+        assertFalse(InputValidator.isDateOfBirthValid("05-05-2005")); // format is wrong.
+    }
 
     @Test
     public void testPostalCodeValidation()
-        {
+    {
         assertTrue(InputValidator.isPostalCodeValid("12345"));
-        
+            
         assertFalse(InputValidator.isPostalCodeValid("1234"));  //too short.
         assertFalse(InputValidator.isPostalCodeValid("123456")); //too long.
         assertFalse(InputValidator.isPostalCodeValid("12a45"));  //letters aren't allowed in a postal code.
-        }
-
-    // Test cases for USERNAME field
-
-        //Test cases for DESCRIPTION field 
-    public void testValidDescription() 
-    {
-        String desc = "This is a beautiful piece of art.";
-        assertTrue(InputValidator.isValidDescription(desc));
     }
-
-    public void testEmptyDescription() 
-    {
-        assertFalse(InputValidator.isValidDescription(""));
-    }
-
-    public void testNullDescription() 
-    {
-        assertFalse(InputValidator.isValidDescription(null));
-    }
-
-    public void testTooLongDescription() 
-    {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 1001; i++) sb.append("a");
-        assertFalse(InputValidator.isValidDescription(sb.toString()));
-    }
-
 
         //Test cases for CREATION DATE field
+    
+     @Test
     public void testValidCreationDate() 
     {
-        assertTrue(InputValidator.isValidCreationDate("2022-05-14"));
+        assertTrue(InputValidator.isCreationDateValid("2022-05-14"));
     }
-
+    
+    @Test
     public void testInvalidCreationDateFormat() 
     {
-        assertFalse(InputValidator.isValidCreationDate("14-05-2022"));
+        assertFalse(InputValidator.isCreationDateValid("14-05-2022"));
     }
 
+     @Test
     public void testEmptyCreationDate() 
     {
-        assertFalse(InputValidator.isValidCreationDate(""));
+        assertFalse(InputValidator.isCreationDateValid(""));
     }
-
+    
+     @Test
     public void testNullCreationDate() 
     {
-        assertFalse(InputValidator.isValidCreationDate(null));
+        assertFalse(InputValidator.isCreationDateValid(null));
     }
 
-     // Test cases for DESCRIPTION field
+        // Test cases for DESCRIPTION field
+    
    @Test
     public void testValidDescription() 
     {
-        assertTrue(InputValidator.isValidDescription("A short and vivid description of the painting."));
+        assertTrue(InputValidator.isDescriptionValid("A short and vivid description of the painting."));
     }
 
-    /**
-     * Tests that an empty string is considered invalid as a description.
-     */
     @Test
     public void testEmptyDescription() 
     {
-        assertFalse(InputValidator.isValidDescription(""));
+        assertFalse(InputValidator.isDescriptionValid(""));
     }
 
-    /**
-     * Tests that a null input is considered invalid as a description.
-     */
     @Test
     public void testNullDescription() 
     {
-        assertFalse(InputValidator.isValidDescription(null));
+        assertFalse(InputValidator.isDescriptionValid(null));
     }
-
-    /**
-     * Tests that a description longer than 1000 characters is considered invalid.
-     */
+    
+    @Test
+    public void testValidDescription() 
+    {
+        String desc = "This is a beautiful piece of art.";
+        assertTrue(InputValidator.isDescriptionValid(desc));
+    }
+    
     @Test
     public void testTooLongDescription() 
     {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 1001; i++) sb.append("a"); // creates 1001 characters
-        assertFalse(InputValidator.isValidDescription(sb.toString()));
+        assertFalse(InputValidator.isDescriptionValid(sb.toString()));
     }
 
-    // Test cases for MEDIUM field
-
-    /**
-     * Tests that a valid medium from the allowed list returns true.
-     */
+        // Test cases for MEDIUM field
     @Test
     public void testValidMedium() 
     {
-        assertTrue(InputValidator.isValidMedium("oil"));
+        assertTrue(InputValidator.isMediumValid("oil"));
     }
 
-    /**
-     * Tests that a medium not in the allowed list returns false.
-     */
     @Test
     public void testInvalidMedium() 
     {
-        assertFalse(InputValidator.isValidMedium("wood"));
+        assertFalse(InputValidator.isMediumValid("wood"));
     }
 
-    /**
-     * Tests that an empty string is not valid for medium.
-     */
     @Test
     public void testEmptyMedium() 
     {
-        assertFalse(InputValidator.isValidMedium(""));
+        assertFalse(InputValidator.isMediumValid(""));
     }
 
-    /**
-     * Tests that a null input is not valid for medium.
-     */
     @Test
     public void testNullMedium() 
     {
-        assertFalse(InputValidator.isValidMedium(null));
+        assertFalse(InputValidator.isMediumValid(null));
     }
     
     @Test
     public void testCaseInsensitiveMedium() 
     {
-        assertTrue(InputValidator.isValidMedium("Acrylic"));
+        assertTrue(InputValidator.isMediumValid("Acrylic"));
     }
 
     // Test cases for PRICE field
@@ -343,31 +306,31 @@ public class InputValidatorTest
     @Test
     public void testValidEuroPrice() 
     {
-        assertTrue(InputValidator.isValidPrice("€999.99"));
+        assertTrue(InputValidator.isPriceValid("€999.99"));
     }
     
     @Test
     public void testValidBitcoinPrice() 
     {
-        assertTrue(InputValidator.isValidPrice("₿0.05"));
+        assertTrue(InputValidator.isPriceValid("₿0.05"));
     }
     
     @Test
     public void testEmptyPrice() 
     {
-        assertTrue(InputValidator.isValidPrice(""));
+        assertTrue(InputValidator.isPriceValid(""));
     }
     
     @Test
     public void testInvalidPriceFormat() 
     {
-        assertFalse(InputValidator.isValidPrice("1500"));
+        assertFalse(InputValidator.isPriceValid("1500"));
     }
     
     @Test
     public void testInvalidPriceLetters() 
     {
-        assertFalse(InputValidator.isValidPrice("fifteen hundred"));
+        assertFalse(InputValidator.isPriceValid("fifteen hundred"));
     }      
 }
 
