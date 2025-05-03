@@ -19,31 +19,31 @@ Important files in this exercise include:
 
 To run the tests in the InputValidatorTest class, each test method needs a @Test annotation. Without this annotation, JUnit will not recognize or run the method as a test.
 
-<ins>isNameValid</ins>: Use it to validate a last name based on the following requirements:
+<ins>validateName</ins>: Use it to validate a last name based on the following requirements:
 - Can contain letters, spaces, and dashes.
 - Must be at least 2 characters long.
 - May include diacritic marks.
 - Must not be null or empty.
 
-<ins>isLastNameValid</ins>: Use it to validate a last name based on the following requirements:
+<ins>validateLastName</ins>: Use it to validate a last name based on the following requirements:
 - Can contain letters, spaces, and dashes.
 - Must be at least 2 characters long.
 - May include diacritic marks.
 - Must not be null or empty.
 - It cannot start or end with a dash.
 
-<ins>isEmailValid</ins>: Use it to validate an email address based on the following requirements:
+<ins>validateEmail</ins>: Use it to validate an email address based on the following requirements:
 - Must not be null or empty.
 - Must follow a valid email format (e.g., name@example.com).
 
-<ins>isUsernameValid</ins>: Use it to validate a username based on the following requirements:
+<ins>validateUsername</ins>: Use it to validate a username based on the following requirements:
 - Must not be null or empty.
 - Must not exceed 20 characters in length.
 - May contain only letters, numbers, underscores, and dots.
 
 <ins>isUsernameUnique</ins>: Checks whether the given username is unique by comparing it to a list of existing usernames.
 
-<ins>isPasswordValid</ins>: Use it to check if the password is valid to then call checkPass.
+<ins>valPassword</ins>: Use it to check if the password is valid to then call checkPass.
 - For more than 7 characters.
 - If it is, then it calls the checkPass method.
 - Has a number.
@@ -53,35 +53,39 @@ To run the tests in the InputValidatorTest class, each test method needs a @Test
 - Has a lowercase letter.
 - Has special character(!, -, *,.).
 
-<ins>isDescriptionValid</ins>: Use it to validate is the description is valid.
-- Must not be empty.
-- Shouldn't be more than 1000 characters long.
-
 <ins>isPhoneNumValid</ins>: Use it to validate a phone number based on the following requirements:
 - Must contain 10 digits.
 - May include dashes or spaces.
 - Can be empty.
 
-<ins>isDateOfBirthValid</ins>: Use it to validate Date of Birth based on the following requirements:
+<ins>dateOfBirthIsValid</ins>: Use it to validate Date of Birth based on the following requirements:
 - Must be a valid date in the format yyyy-MM-dd.
 - User must be 18+ years old. 
 - Should not be empty.
 
-<ins>isPostalCodeValid</ins>: Use it to validate a postal Code based on the following requirements:
+<ins>isPostalCodeValid</ins>: Use it to validate a Postal Code based on the following requirements:
 - Must be exactly 5 digits (only for the U.S.A.).
 - Can be empty if the postal code is from another country.
 
-<ins>isImage</ins>: Use it to validate if the file is an image.
+<ins>checkTitle</ins>: Use it to validate if a Title is more than 0 characters but less than 100 characters.
+
+<ins>isValidDescription</ins>: Use it to validate the description based on the following requirements:
+- Must not be empty.
+- Shouldn't be more than 1000 characters long.
+
+<ins>isValidImage</ins>: Use it to validate a image based on the following requirements:
 - It should have the extension JPG or PNG.
 - It should not be more than 4 MB in size.
 
-<ins>fileSize:</ins>: Checks if file size is not more than 4MB.
+<ins>isValidDimensions:</ins>: Use it to validate the Dimension based on the following requirements:
+- Must not be null or empty.
+- Must follow the format: width x height [unit], such as "20x30 inches" or "0.5 x 1.2 meter".
+- Accepted units: inches, inch, feet, foot, ft, meter, m, cm.
 
-<ins>isMediumValid</ins>:
+
+<ins>isMediumValid</ins>: Use it to validates whether the medium is one of the accepted media types based on the following requirements: 
 - Should be one of the accepted media (the field for a painting medium is a dropdown menu). 
 - Should not be empty.
-
-<ins>checkTitle</ins>: Use it to validate if a title is more than 0 characters but less than 100 characters.
 
 <ins>validateCreationDate</ins>: Use it to validate a creation date based on the following requirements:
 - Must be a valid date in the format yyyy-MM-dd.

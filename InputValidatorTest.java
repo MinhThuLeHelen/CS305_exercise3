@@ -3,6 +3,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.List;
 import java.util.Arrays;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.io.FileOutputStream;
+
 //import com.sun.source.tree.AssertTree; // should delete.
 //import java.beans.Transient; // should delete.
 
@@ -49,14 +54,12 @@ public class InputValidatorTest
     public void testNameTooShort() 
     {
         assertFalse(InputValidator.validateName("A"));           //should return False
-        assertTrue(InputValidator.validateName("Maria"));        //should return True
     }
 
     @Test
     public void testNameContainNumbers() 
     {
         assertFalse(InputValidator.validateName("Mimi123"));     //should return False
-        assertTrue(InputValidator.validateName("Maria"));        //should return True
     }
 
     @Test
@@ -84,6 +87,7 @@ public class InputValidatorTest
         assertFalse(InputValidator.validateName("Bob#123"));       // should return false - contains '#'
     }
 
+    
     // Test cases for LAST NAME field
     @Test
     public void testValidLastName() 
@@ -118,6 +122,7 @@ public class InputValidatorTest
         assertTrue(InputValidator.validateLastName("Van der Merwe")); // last name with a space, should returns True 
     }
 
+    
     // Test cases for EMAIL field
     @Test
     public void testValidEmail() 
@@ -179,6 +184,7 @@ public class InputValidatorTest
         assertFalse(InputValidator.validateEmail("")); //empty string = not a valid email, should returns False
     }
 
+    
     // Test cases for USERNAME field
     @Test
     public void testUsername() 
@@ -214,6 +220,7 @@ public class InputValidatorTest
         assertTrue("Username 'David' is unique",InputValidator.isUsernameUnique("David", existingUsernames)); // should return True (David is not taken);
     }
 
+    
     // Test cases for PASSWORD field
     @Test
     public void passwordTest()
@@ -267,7 +274,9 @@ public class InputValidatorTest
     {
         assertFalse(InputValidator.valPassword(null));
     }
-    // 
+
+    
+    // Test cases for PHONE NUMBER field
     @Test
     public void testPhoneNumberValidation()
     {
@@ -283,6 +292,8 @@ public class InputValidatorTest
 
     }
 
+    
+    // Test cases for DOB field
     @Test
     public void testDateOfBirthValidation()
     {
@@ -294,6 +305,8 @@ public class InputValidatorTest
         assertFalse(InputValidator.dateOfBirthIsValid("05-05-2005")); // format is wrong.
     }
 
+    
+    // Test cases for POSTAL CODE field
     @Test
     public void testPostalCodeValidation() 
     {
@@ -316,6 +329,7 @@ public class InputValidatorTest
         assertFalse(InputValidator.isPostalCodeValid("ABC123", false));
     }
 
+    
     // Test cases for TITTLE field
     @Test
     public void testTitleValidation()
@@ -394,6 +408,94 @@ public class InputValidatorTest
         assertTrue(InputValidator.isValidDescription(desc));
     }
 
+    
+    // Test cases for IMAGE field
+    private File createTempFileWithSize(String filename, int sizeInBytes) throws IOException 
+    {
+        // we will create temporary file using for testing without needing real image files in the project.
+        File temp = File.createTempFile("temp", filename);
+        
+        try (FileOutputStream fos = new FileOutputStream(temp)) 
+        {
+            byte[] data = new byte[sizeInBytes]; // fills the file with dummy bytes (just empty data) to simulate its size.
+            fos.write(data);
+        }
+        return temp;
+    }
+    
+    @Test
+    public void testValidJPGImageUnder4MB() throws IOException 
+    {
+        File tempFile = File.createTempFile("test", ".jpg");
+        Files.write(tempFile.toPath(), new byte[1024 * 1024]); // 1MB dummy data
+
+        assertTrue(InputValidator.isValidImage(tempFile));
+
+        tempFile.delete(); // Clean up
+    }
+
+    @Test
+    public void testValidJPGUnder4MB() throws IOException 
+    {
+        File tempFile = createTempFileWithSize("test.jpg", 1024 * 1024 * 2); // valid extension + 2MB, should returns True 
+        assertTrue(InputValidator.isValidImage(tempFile));
+        tempFile.delete();
+    }
+
+    @Test
+    public void testTooLargePNGFile() throws IOException 
+    {
+        File tempFile = createTempFileWithSize("image.png", 1024 * 1024 * 5); // valid extension but 5MB, should returns False 
+        assertFalse(InputValidator.isValidImage(tempFile));
+        tempFile.delete();
+    }
+
+    @Test
+    public void testInvalidExtension() throws IOException 
+    {
+        File tempFile = createTempFileWithSize("notimage.gif", 1024 * 100); // invalid extension + 100KB, should returns False 
+        assertFalse(InputValidator.isValidImage(tempFile));
+        tempFile.delete();
+    }
+
+
+    // Test cases for DIMENSIONS field
+    @Test
+    public void testValidDimensionsInInches() 
+    {
+        assertTrue(InputValidator.isValidDimensions("20x30 inches"));
+        // follow the format width x height [unit] and valid unit 
+        // should return False 
+    }
+
+    @Test
+    public void testValidDecimalDimensions() 
+    {
+        assertTrue(InputValidator.isValidDimensions("0.5 x 1.2 meter")); 
+        // follow the format width x height [unit] and valid unit 
+        // should return False 
+    }
+
+    @Test
+    public void testMissingUnit() 
+    {
+        assertFalse(InputValidator.isValidDimensions("20x30")); // missing unit, should returns False
+    }
+
+    @Test
+    public void testEmptyDimensions() 
+    {
+        assertFalse(InputValidator.isValidDimensions("")); // empty, should return False 
+    }
+
+    @Test
+    public void testInvalidFormat() 
+    {
+        assertFalse(InputValidator.isValidDimensions("30 inches x 40 inches")); 
+        // not follow the format width x height [unit], should return False 
+    }
+
+    
     // Test cases for MEDIUM field
     @Test
     public void testValidMediums() {
@@ -435,6 +537,7 @@ public class InputValidatorTest
         assertTrue(InputValidator.isValidMedium("ACRYLIC")); // check uppercase input
     }
 
+    
     //Test cases for CREATION DATE field
     @Test
     public void testValidCreationDate() 
@@ -470,6 +573,7 @@ public class InputValidatorTest
         assertFalse(InputValidator.validateCreationDate(null));
     }
 
+    
     // Test cases for PRICE field
     @Test
     public void testValidUSPrice() // Test with valid US dollar price format 

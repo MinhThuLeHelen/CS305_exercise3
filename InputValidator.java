@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
+import java.io.File;
+
 //import java.time.Period;
 //import java.time.LocalDate;
 //import java.time.format.DateTimeFormatter;
@@ -291,7 +293,7 @@ public class InputValidator
     {
         if(title != null && title.length() > 0 && title.length() < 100)
         {
-            return true;            
+            return true; // must not be null or empty and must be <100 characters          
         }
         else
         {  
@@ -299,14 +301,73 @@ public class InputValidator
         }
     }
 
-    public static boolean isValidDescription(String description) 
+    /**
+     * Validates whether the description is valid based on the following requirements:
+     * - Must not be null or empty.
+     * - Must not exceed 1000 characters.
+     * 
+     * @param description the description text to validate
+     * @return true if the description is non-null, non-empty, and within the character limit; false otherwise
+     */ 
+    
+     public static boolean isValidDescription(String description) 
     {
         if (description == null || description.trim().isEmpty()) 
         {
-            return false;
+            return false; // must not be null or empty.
         }
-        return description.length() <= 1000;
+        
+        return description.length() <= 1000; // must not exceed 1000 characters.
     }
+
+    
+    /**
+     * Validates whether the image is valid based on the following requirements:
+     * - File must not be null and must exist.
+     * - File extension must be .jpg, .jpeg, or .png (case-insensitive).
+     * - File size must be 4MB or less
+     * 
+     * @param file the image file to validate
+     * @return true if the file is a valid image with correct extension and within size limits, false otherwise. 
+     */ 
+    public static boolean isValidImage(File file) 
+    {
+        if (file == null || !file.exists()) 
+            return false; // File must not be null and must exist.
+
+        String name = file.getName().toLowerCase(); //put the file name to be lowercase so we can check since the the extension is in lowercase
+        
+        // the file must ends with .jpg, .jpeg, or .png 
+        boolean hasValidExtension = name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".png");
+        long fileSizeInBytes = file.length();
+        
+        //file size must be 4MB or less 
+        boolean withinSizeLimit = fileSizeInBytes <= 4 * 1024 * 1024; 
+
+        return hasValidExtension && withinSizeLimit;
+    }
+
+    
+    /**
+     * Validates whether the dimension is valid based on the following requirements:
+     * - Must not be null or empty.
+     * - Must follow the format: width x height [unit], such as "20x30 inches" or "0.5 x 1.2 meter".
+     * - Accepted units: inches, inch, feet, foot, ft, meter, m, cm.
+     *
+     * @param dimensions the dimension string to validate
+     * @return true if the dimensions string is valid, false otherwise
+     */ 
+    public static boolean isValidDimensions(String dimensions) 
+    {
+        if (dimensions == null || dimensions.trim().isEmpty()) 
+            return false; // Must not be null or empty.
+
+        // Regex pattern to match the format: width x height [unit]
+        // Accepted units: inches, inch, feet, foot, ft, meter, m, cm.
+        String pattern = "\\d+(\\.\\d+)?\\s*[xX]\\s*\\d+(\\.\\d+)?\\s*(inches|inch|feet|foot|ft|meter|m|cm)";
+        return dimensions.trim().toLowerCase().matches(pattern);
+    }
+
 
     // The set of accepted media types for artwork, ensuring that the input medium is among the valid options.
     private static final Set<String> acceptedMedia = Set.of(
@@ -327,7 +388,7 @@ public class InputValidator
         {
             return false; // If the medium is null or empty (after trimming whitespace)
         }
-        
+
         return acceptedMedia.contains(medium.toLowerCase()); 
         // If the medium exists in the accepted set of media types (case-insensitive comparison)
     }
