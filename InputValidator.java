@@ -9,58 +9,66 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 /*
- * This is the InputValidator class. Please complete this class with
- * appropriate JavaDoc comments, method and code comments, and the appropriate
- * Methods to validate inputs from the user. 
+ * The InputValidator class provides static utility methods to validate
+ * various types of user input such as password, description, creation date,
+ * price, medium, last name, email, username, phone number, DOB, postal code, 
+ * description Methods include proper JavaDoc and in-line code comments for
+ * better readability and maintenance.
  */
 
 public class InputValidator 
 {
-
-    public static boolean IsThePassword(Valid(String password)
+    /**
+     * Validates a password based on length and content requirements.
+     * @param password the password to validate
+     * @return true if valid, false otherwise
+     */
+    public static boolean IsThePasswordValid(String password)
     {
-        if(password.length() > 7)
+        if (password.length() > 7) 
         {
             return checkPass(password);
-            
-        }
-    
-        else
+        } 
+        else 
         {
             System.out.println("Too short");
             return false;
         }
     }
-    public static boolean checkPass(String password)
-    {
-        boolean hasNum = false;
-        boolean hasCap = false;
-        boolean hasLow = false;
-        char c;
-
-        for (int i = 0; i < password.length(); i++)
-        {
-         c = password.charAt(i);
-         if(Character.isDigit(c))
-         {
-            hasNum = true;
-         }
-         else if (Character.isUpperCase(c))
-         {
-            hasCap = true;
-         }   
-         else if (Character.isLowerCase(c))
-        {
-             hasLow = true;
+    
+    /**
+     * Checks if password contains at least one number, one uppercase,
+     * and one lowercase character.
+     */
+     public static boolean checkPass(String password) 
+      {
+            boolean hasNum = false;
+            boolean hasCap = false;
+            boolean hasLow = false;
+    
+            for (int i = 0; i < password.length(); i++) 
+            {
+                char c = password.charAt(i);
+                if (Character.isDigit(c)) 
+                {
+                    hasNum = true;
+                } 
+                else if (Character.isUpperCase(c)) 
+                {
+                    hasCap = true;
+                } 
+                else if (Character.isLowerCase(c)) 
+                {
+                    hasLow = true;
+                }
+                if (hasNum && hasCap && hasLow)
+                {
+                  return true;
+                }
+            }
+            return false;
         }
-        if(hasNum && hasCap && hasLow)
-        {
-            return true;
-        }
-        }
-        return false;
-    }
-
+    
     /**
      * Validates a name based on the following requirements:
      * - Can contain letters and spaces.
@@ -72,58 +80,60 @@ public class InputValidator
      * @return true if the name is valid, false otherwise
      */
     public static boolean isValidDescription(String description) 
-    {
+  {
         if (description == null || description.trim().isEmpty()) 
         {
             return false;
         }
         return description.length() <= 1000;
     }
-
-/**
- * Validates a creation date based on the following requirements:
- * - Must be in the format yyyy-MM-dd.
- * - Must not be null or empty.
- *
- * @param date the creation date to validate
- * @return true if the date is valid, false otherwise
- */
-
-public static boolean isValidCreationDate(String date) 
-{
-    if (date == null || date.trim().isEmpty()) 
-    {
-        return false;
-    }
-    try {
-        LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
-        return true;
-    } 
-    catch (DateTimeParseException e) 
-    {
-    return false;
-} 
-
-private static final Pattern pricePattern = Pattern.compile("^\\$?\\d+(\\.\\d{2})?$|^€\\d+(\\.\\d{2})?$|^₿\\d+(\\.\\d{2})?$");
-
-public static boolean isValidPrice(String price) 
-{
-    if (price == null || price.trim().isEmpty()) 
-    {
-        return true; // empty allowed.
-    }
-    return pricePattern.matcher(price).matches();
-    }
-    private static final Set<String> acceptedMedia = Set.of(
-        "oil", "acrylic", "watercolor", "ink", "pastel", "digital", "mixed media", "sculpture"
-    );
-}
+    /**
+     * Validates a creation date based on the following requirements:
+     * - Must be in the format yyyy-MM-dd.
+     * - Must not be null or empty.
+     *
+     * @param date the creation date to validate
+     * @return true if the date is valid, false otherwise
+     */
+    
+    public static boolean validateCreationDate(String date) 
+      {
+            if (date == null || date.isEmpty()) 
+            {
+                return false;
+            }
+            try 
+              {
+                LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
+                return true;
+            } 
+            catch (DateTimeParseException e) 
+            {
+                return false;
+            }
+        }
+private static final Pattern pricePattern = Pattern.compile(
+        "^(\\$|C\\$|€|MX\\$|₿)?\\d+(\\.\\d{2})?$");
 
     /**
-     * Validates that the medium is not empty and is among accepted options.
-     *
-     * @param medium the medium used in the artwork
-     * @return true if valid, false otherwise
+     * Validates formatted currency strings (USD, EUR, BTC, etc.)
+     */
+    public static boolean isValidPrice(String price) 
+  {
+        if (price == null || price.trim().isEmpty()) 
+        {
+            return true;
+        }
+        return pricePattern.matcher(price).matches();
+    }
+
+    
+    private static final Set<String> acceptedMedia = Set.of(
+        "oil", "acrylic", "watercolor", "ink", "pastel",
+        "digital", "mixed media", "sculpture");
+
+    /**
+     * Validates if the input medium is one of the accepted media types.
      */
     public static boolean isValidMedium(String medium) 
     {
@@ -133,29 +143,35 @@ public static boolean isValidPrice(String price)
         }
         return acceptedMedia.contains(medium.toLowerCase());
     }
-
-    // Regex pattern to validate allowed currency formats (USD, EUR, BTC)
-    private static final Pattern pricePattern = Pattern.compile(
-        "^\\$?\\d+(\\.\\d{2})?$|^€\\d+(\\.\\d{2})?$|^₿\\d+(\\.\\d{2})?$");
-
     /**
-     * Validates that the price is either empty or matches valid currency format.
+     * Validates an email address based on the following requirements:
+     * - Must not be null or empty.
+     * - Must follow a valid email format (e.g., name@example.com).
      *
-     * @param price the price as a string (can be USD, EUR, BTC)
-     * @return true if valid or empty, false if invalid
+     * @param email the email address to validate
+     * @return true if the email is valid, false otherwise
      */
-    public static boolean isValidPrice(String price) 
-    {
-        if (price == null || price.isEmpty())  // Allow empty prices (optional field)
+        public static boolean validateEmail(String email) 
         {
+            if (email == null                   // if the input is null (nothing was passed in)
+                    || email.trim().isEmpty())  // if there is space even after trimming
+                return false;
+            
+            // Find the position of the @ symbol
+            int atPosition = email.indexOf('@');
+            // Check if @ exists and isn't the first or last character
+            if (atPosition <= 0 || atPosition == email.length() - 1)
+                return false;
+            
+            // Check if there is at least one '.' after the '@' symbol
+            String domainPart = email.substring(atPosition + 1); // get everything after @
+            if (domainPart.indexOf('.') == -1)
+                return false;
+            
+            // If all checks pass, return true
             return true;
         }
-        // Valid currencies: USD ($), CAD (C$), Euro (€), Mexican Peso (MX$), Bitcoin (₿)
-        // Regex allows symbols followed by 1+ digits, a decimal point, and 2 decimal digits
-        String priceRegex = "^(\\$|C\\$|€|MX\\$|₿)\\d+(\\.\\d{2})$";
-    
-        return price.matches(priceRegex);
-    }
+
 
     /**
      * Validates a last name based on the following requirements:
@@ -178,35 +194,6 @@ public static boolean isValidPrice(String price)
         // we will accept letters (in any language with diacritics) but not starts and/or ends with a dash 
     }
 
-    /**
-     * Validates an email address based on the following requirements:
-     * - Must not be null or empty.
-     * - Must follow a valid email format (e.g., name@example.com).
-     *
-     * @param email the email address to validate
-     * @return true if the email is valid, false otherwise
-     */
-    public static boolean validateEmail(String email) 
-    {
-        if (email == null                   // if the input is null (nothing was passed in)
-                || email.trim().isEmpty())  // if there is space even after trimming
-            return false;
-        
-        // Find the position of the @ symbol
-        int atPosition = email.indexOf('@');
-        
-        // Check if @ exists and isn't the first or last character
-        if (atPosition <= 0 || atPosition == email.length() - 1)
-            return false;
-        
-        // Check if there is at least one '.' after the '@' symbol
-        String domainPart = email.substring(atPosition + 1); // get everything after @
-        if (domainPart.indexOf('.') == -1)
-            return false;
-        
-        // If all checks pass, return true
-        return true;
-    }
 
     /**
      * Validates a username based on the following requirements:
@@ -250,47 +237,28 @@ public static boolean isValidPrice(String price)
      *
      */
     public static boolean isPhoneNumValid(String phoneNum) 
-    {
-        String message1 = "269-555-1234";
-        String message2 = "2695551234777";
-        String regex = "^[0-9\\- ]+$";
-
-        if (phoneNum == null) 
-        {
-          return false;
-        }
-        if (phoneNum.equals(""))
-        {
-          return true; 
-        }
-        if (!phoneNum.matches(regex)) 
-        {
-          return false; // must contain only digits, dashes, and spaces.
-        }
-        if (phoneNum.equals(message2))
-        {
-            return false;
-        }
-        if (phoneNum.length() < 10 || phoneNum.length() > 15) // Phone number cannot be shorter than 10 digits or 15 digits.
-        {
-          return false; 
-        }
-       
-        if (phoneNum.equals(message1)) 
-        {
-          return true; 
-        }
-         
-        int count = 0;
-        for (int i = 0; i < phoneNum.length(); i++) 
-        {
-            if (Character.isDigit(phoneNum.charAt(i))) 
-            {
-                count++;
-            }
-        }
-    return count == 10; // Phone number should equal to 10 digits.
+   {
+    if (phoneNum == null) 
+  {
+  return false; 
+  }
+    if (phoneNum.equals("")) 
+    { 
+      return true; 
     }
+
+    String regex = "^[0-9\\- ]+$";  // allows only digits, hyphens, and spaces
+    if (!phoneNum.matches(regex)) 
+    { 
+      return false; 
+    }
+    int count = 0;
+    for (char c : phoneNum.toCharArray()) 
+    {
+        if (Character.isDigit(c)) count++;
+    }
+    return count == 10; //digts must be 10.
+}
 
     /**
      * Validates the creation date based on the following requirements:
@@ -298,7 +266,7 @@ public static boolean isValidPrice(String price)
      * - User must be 18+ years old. 
      * - Should not be empty.
      * 
-     * @param dob the date of birth to validate the age of the users is above 18.
+     * @param Dvalidate the DOB of the users is above 18.
      * @return true if the date of birth is valid and user is 18+ years old, false otherwise
      * @throws DateTimeParseException if the date format is invalid
      * @throws IllegalArgumentException if the date is in the future
@@ -306,33 +274,35 @@ public static boolean isValidPrice(String price)
     public static boolean dateOfBirthIsValid(String dob) 
     {
             if (dob == null || dob.isEmpty()) 
-            {
-                return false;
-            }
-            try 
-            {
-                LocalDate birthDate = LocalDate.parse(dob, DateTimeFormatter.ISO_LOCAL_DATE);
-                int birthYear = birthDate.getYear();
-
-                if (2025 - birthYear >= 18) 
-                {
-                    return true;
-                } 
-                else 
-                {
-                    return false;
-                }
-            }
-            catch (DateTimeParseException e) 
-            return false;
+    {
+        return false;
     }
+    try 
+    {
+        LocalDate birthDate = LocalDate.parse(dob, DateTimeFormatter.ISO_LOCAL_DATE);
+        int birthYear = birthDate.getYear();
+
+        if (2025 - birthYear >= 18) 
+        {
+            return true;
+        } 
+        else 
+        {
+            return false;
+        }
+    }
+    catch (DateTimeParseException e) 
+    {
+        return false;
+    }
+}
 
     /**
      * Validates the date of birth(DOB) based on the following requirements:
      * - Must be exactly 5 digits (only for the U.S.A.). 
      * - Can be empty if the postal code is from another country.
      * 
-     * @param postalCode the ZIP/postal code to validate
+     * @param postalCode 
     * @param USAcode true if the address is in the U.S.A, false otherwise
     * @return true if the ZIP code is valid
     * @throws NumberFormatException if the postal code is not a number 
@@ -354,18 +324,16 @@ public static boolean isValidPrice(String price)
     return true;
     }
 
-    public static boolean isValidDescription(String description) 
-    {
-        if (description == null || description.trim().isEmpty()) 
-        {
-            return false;
-        }
-        return description.length() <= 1000;
-        }
-    private static final Set<String> acceptedMedia = Set.of(
+private static final Set<String> acceptedMedia = Set.of(
         "oil", "acrylic", "watercolor", "ink", "pastel", "digital", "mixed media", "sculpture"
     );
-
+}
+    /**
+     * Validates that the medium is not empty and is among accepted options.
+     *
+     * @param medium the medium used in the artwork
+     * @return true if valid, false otherwise
+     */
     public static boolean isValidMedium(String medium) 
     {
         if (medium == null || medium.trim().isEmpty()) 
@@ -374,23 +342,3 @@ public static boolean isValidPrice(String price)
         }
         return acceptedMedia.contains(medium.toLowerCase());
     }
-
-    public static boolean validateCreationDate(String creationDate)
-    {
-        if (creationDate == null || creationDate.isEmpty()) 
-        {
-            return false;
-        }
-        try
-        {
-            LocalDate.parse(creationDate, DateTimeFormatter.ISO_LOCAL_DATE); //yyyy-MM-dd.
-            return true;
-        }
-        catch (DateTimeParseException e)
-        {
-            return false;
-        }
-
-    }
-    
-
